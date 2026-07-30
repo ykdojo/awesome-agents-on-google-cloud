@@ -54,7 +54,7 @@ Three of the biggest gaps between a demo and a production agent: **Observability
 
 ![Runtime decision tree](assets/agent-arch/runtime-decision.svg)
 
-The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime when managed sessions, memory, and evals are worth a platform-specific API, and graduate to GKE when you're running a fleet, not an agent.
+The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime when its managed sessions, memory, and evals are worth tying your code to Google-specific APIs, and graduate to GKE when you're running a fleet, not an agent.
 
 ## A reference architecture for the common case
 
