@@ -58,7 +58,7 @@ The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime wh
 
 ## A reference architecture for the common case
 
-For a typical production agent with tools, memory, and real users, a solid setup might look like: **ADK on Cloud Run** fronted by your existing auth; **Gemini Flash** by default with Pro for escalation; tools via **MCP**; **Cloud SQL** for session state and **Memory Bank** for long-term memory; traces into **Cloud Trace**; `adk eval` in CI via [agents-cli](https://github.com/google/agents-cli), which scaffolds exactly this setup with Terraform and a staging-then-prod pipeline. Every piece is swappable, which is the point of picking the container path first.
+For a typical production agent with tools, memory, and real users, a solid setup might look like: **ADK on Cloud Run** fronted by your existing auth; **Gemini Flash** by default with Pro for harder tasks; tools via **MCP**; **Cloud SQL** for session state and **Memory Bank** for long-term memory; traces into **Cloud Trace**; `adk eval` in CI via [agents-cli](https://github.com/google/agents-cli), which scaffolds exactly this setup with Terraform and a staging-then-prod pipeline. Every piece is swappable, which is the point of picking the container path first.
 
 ## Where this is heading
 
