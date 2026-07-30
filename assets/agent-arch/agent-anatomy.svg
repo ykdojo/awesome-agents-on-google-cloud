@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#FFFFFF"/>
+
+  <!-- User pill -->
+  <rect x="20" y="190" width="150" height="44" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="95" y="217" font-size="14" fill="#0F172A" text-anchor="middle">User or event</text>
+  <line x1="174" y1="212" x2="226" y2="212" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Agent box -->
+  <rect x="230" y="40" width="430" height="340" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="246" y="68" font-size="12" font-weight="700" letter-spacing="1.5" fill="#475569">AGENT</text>
+
+  <!-- Runtime loop -->
+  <rect x="258" y="190" width="150" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="333" y="217" font-size="14" fill="#0F172A" text-anchor="middle">Runtime loop</text>
+
+  <!-- Model / Tools / Memory chips -->
+  <rect x="472" y="90" width="160" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="552" y="117" font-size="14" fill="#0F172A" text-anchor="middle">Model</text>
+  <rect x="472" y="190" width="160" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="552" y="217" font-size="14" fill="#0F172A" text-anchor="middle">Tools</text>
+  <rect x="472" y="290" width="160" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="552" y="317" font-size="14" fill="#0F172A" text-anchor="middle">Memory and state</text>
+
+  <!-- Bidirectional links -->
+  <line x1="414" y1="200" x2="466" y2="118" stroke="#94A3B8" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="414" y1="212" x2="466" y2="212" stroke="#94A3B8" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="414" y1="224" x2="466" y2="306" stroke="#94A3B8" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+
+  <!-- Other agents pill -->
+  <rect x="706" y="190" width="174" height="44" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="793" y="217" font-size="14" fill="#0F172A" text-anchor="middle">Other agents via A2A</text>
+  <line x1="664" y1="212" x2="702" y2="212" stroke="#94A3B8" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+
+  <!-- Cross-cutting -->
+  <rect x="20" y="290" width="176" height="64" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="108" y="316" font-size="13" fill="#475569" text-anchor="middle">Observability, security,</text>
+  <text x="108" y="336" font-size="13" fill="#475569" text-anchor="middle">evals</text>
+  <line x1="200" y1="322" x2="226" y2="322" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+</svg>

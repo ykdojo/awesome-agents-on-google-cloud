@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="390" viewBox="0 0 940 390" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="940" height="390" fill="#FFFFFF"/>
+
+  <!-- Spectrum band -->
+  <rect x="20" y="28" width="900" height="130" rx="12" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+  <text x="36" y="56" font-size="12" font-weight="700" letter-spacing="1.5" fill="#B45309">KNOWLEDGE: THE RAG SPECTRUM</text>
+
+  <g text-anchor="middle">
+    <rect x="45" y="76" width="270" height="58" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="180" y="100" font-size="15" font-weight="600" fill="#0F172A">Agent Search</text>
+    <text x="180" y="121" font-size="12.5" fill="#64748B">turnkey retrieval</text>
+    <rect x="335" y="76" width="270" height="58" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="470" y="100" font-size="15" font-weight="600" fill="#0F172A">RAG Engine</text>
+    <text x="470" y="121" font-size="12.5" fill="#64748B">managed pipeline you can tune</text>
+    <rect x="625" y="76" width="270" height="58" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="760" y="100" font-size="15" font-weight="600" fill="#0F172A">Vector Search</text>
+    <text x="760" y="121" font-size="12.5" fill="#64748B">raw infrastructure</text>
+  </g>
+
+  <!-- Axis -->
+  <line x1="70" y1="184" x2="870" y2="184" stroke="#94A3B8" stroke-width="1.75" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="70" y="210" font-size="12.5" fill="#64748B">most managed</text>
+  <text x="870" y="210" font-size="12.5" fill="#64748B" text-anchor="end">most control</text>
+
+  <!-- Shortcut 1 -->
+  <rect x="20" y="240" width="900" height="56" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="470" y="273" font-size="13.5" fill="#475569" text-anchor="middle">Shortcut 1: data already in AlloyDB, Cloud SQL, BigQuery, or Firestore? Use its native vector or keyword search.</text>
+
+  <!-- Shortcut 2 -->
+  <rect x="20" y="312" width="900" height="56" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="470" y="345" font-size="13.5" fill="#475569" text-anchor="middle">Shortcut 2: need the public web? Grounding with Google Search skips retrieval infrastructure entirely.</text>
+</svg>

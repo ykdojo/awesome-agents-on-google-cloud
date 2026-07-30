@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="460" viewBox="0 0 920 460" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="920" height="460" fill="#FFFFFF"/>
+
+  <!-- Start -->
+  <rect x="310" y="20" width="300" height="44" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="460" y="47" font-size="14" font-weight="600" fill="#0F172A" text-anchor="middle">Where should my agent run?</text>
+  <line x1="460" y1="66" x2="460" y2="96" stroke="#94A3B8" stroke-width="1.75" marker-end="url(#arrow)"/>
+
+  <!-- D1 -->
+  <rect x="310" y="100" width="300" height="56" rx="10" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+  <text x="460" y="123" font-size="13.5" fill="#0F172A" text-anchor="middle">Python, and want managed</text>
+  <text x="460" y="142" font-size="13.5" fill="#0F172A" text-anchor="middle">sessions, memory, evals?</text>
+  <line x1="306" y1="128" x2="256" y2="128" stroke="#94A3B8" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="281" y="118" font-size="12" fill="#64748B" text-anchor="middle">Yes</text>
+  <line x1="460" y1="158" x2="460" y2="192" stroke="#94A3B8" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="474" y="180" font-size="12" fill="#64748B">No</text>
+  <rect x="60" y="104" width="190" height="48" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="155" y="133" font-size="14" font-weight="600" fill="#065F46" text-anchor="middle">Agent Runtime</text>
+
+  <!-- D2 -->
+  <rect x="310" y="196" width="300" height="56" rx="10" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+  <text x="460" y="219" font-size="13.5" fill="#0F172A" text-anchor="middle">Fits serverless constraints:</text>
+  <text x="460" y="238" font-size="13.5" fill="#0F172A" text-anchor="middle">stateless, request-driven, bursty?</text>
+  <line x1="306" y1="224" x2="256" y2="224" stroke="#94A3B8" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="281" y="214" font-size="12" fill="#64748B" text-anchor="middle">Yes</text>
+  <line x1="460" y1="254" x2="460" y2="288" stroke="#94A3B8" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="474" y="276" font-size="12" fill="#64748B">No</text>
+  <rect x="60" y="200" width="190" height="48" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="155" y="229" font-size="14" font-weight="600" fill="#065F46" text-anchor="middle">Cloud Run</text>
+
+  <!-- GKE endpoint -->
+  <rect x="335" y="292" width="250" height="48" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="460" y="315" font-size="14" font-weight="600" fill="#065F46" text-anchor="middle">GKE</text>
+  <text x="460" y="332" font-size="12" fill="#047857" text-anchor="middle">long-running, GPU fleets, strict isolation</text>
+
+  <!-- Hybrid tip -->
+  <rect x="60" y="384" width="800" height="52" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="460" y="415" font-size="13.5" fill="#475569" text-anchor="middle">Hybrid tip: agents on Cloud Run or GKE can still call the managed Sessions and Memory Bank APIs a la carte.</text>
+</svg>
