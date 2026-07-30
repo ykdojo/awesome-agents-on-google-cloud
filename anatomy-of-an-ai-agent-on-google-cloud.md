@@ -43,7 +43,7 @@ For knowledge, think in a spectrum of abstraction: [Agent Search](https://docs.c
 
 ![The RAG spectrum on Google Cloud](assets/agent-arch/rag-spectrum.svg)
 
-### Memory and state: the scratchpad and the diary
+### State and memory: the scratchpad and long-term memory
 
 The key distinction: **session state** (the scratchpad of the current conversation) versus **memory** (distilled facts that survive across sessions). For session state, ADK offers [three backends](https://adk.dev/sessions/session/): in-memory for dev, your own Postgres, or Agent Runtime's managed Sessions service. For long-term memory, [Memory Bank](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank) uses generative AI to extract and consolidate facts about each user rather than stuffing transcripts into a vector store. Memory Bank isn't required, though: ADK's [memory interface](https://adk.dev/sessions/memory/) is pluggable, so you can back it with your own store, and vector search in your own database is also an option for long-term recall.
 ### Cross-cutting: production is the hard part
