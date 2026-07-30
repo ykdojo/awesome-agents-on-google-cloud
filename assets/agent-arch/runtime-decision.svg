@@ -35,8 +35,7 @@
 
   <!-- GKE endpoint -->
   <rect x="335" y="292" width="250" height="48" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
-  <text x="460" y="315" font-size="14" font-weight="600" fill="#065F46" text-anchor="middle">GKE</text>
-  <text x="460" y="332" font-size="12" fill="#047857" text-anchor="middle">long-running, GPU fleets, strict isolation</text>
+  <text x="460" y="321" font-size="14" font-weight="600" fill="#065F46" text-anchor="middle">GKE</text>
 
   <!-- Hybrid tip -->
   <rect x="60" y="384" width="800" height="52" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 4"/>
