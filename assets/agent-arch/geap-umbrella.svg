@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="700" viewBox="0 0 960 700" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="960" height="700" fill="#FFFFFF"/>
+
+  <!-- Platform umbrella container -->
+  <rect x="20" y="20" width="630" height="630" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="335" y="52" font-size="14" font-weight="700" letter-spacing="1.5" fill="#334155" text-anchor="middle">GEMINI ENTERPRISE AGENT PLATFORM</text>
+  <text x="335" y="74" font-size="12" fill="#64748B" text-anchor="middle">the evolution of Vertex AI</text>
+
+  <!-- Model -->
+  <rect x="40" y="92" width="590" height="84" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="56" y="114" font-size="11" font-weight="700" letter-spacing="1.5" fill="#1D4ED8">MODEL</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="126" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="131" y="151">Model Garden</text>
+    <rect x="222" y="126" width="230" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="337" y="151">Grounding with Google Search</text>
+  </g>
+
+  <!-- Framework -->
+  <rect x="40" y="182" width="590" height="84" rx="12" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+  <text x="56" y="204" font-size="11" font-weight="700" letter-spacing="1.5" fill="#6D28D9">FRAMEWORK</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="216" width="90" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="101" y="241">ADK*</text>
+  </g>
+
+  <!-- Runtime -->
+  <rect x="40" y="272" width="590" height="84" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="56" y="294" font-size="11" font-weight="700" letter-spacing="1.5" fill="#047857">RUNTIME</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="306" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="131" y="331">Agent Runtime</text>
+    <rect x="222" y="306" width="110" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="277" y="331">Sessions</text>
+    <rect x="348" y="306" width="110" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="403" y="331">Sandbox</text>
+  </g>
+
+  <!-- Knowledge -->
+  <rect x="40" y="362" width="590" height="84" rx="12" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+  <text x="56" y="384" font-size="11" font-weight="700" letter-spacing="1.5" fill="#B45309">KNOWLEDGE</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="396" width="130" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="121" y="421">RAG Engine</text>
+    <rect x="202" y="396" width="140" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="272" y="421">Vector Search</text>
+  </g>
+
+  <!-- Memory -->
+  <rect x="40" y="452" width="590" height="84" rx="12" fill="#FDF2F8" stroke="#FBCFE8" stroke-width="1.5"/>
+  <text x="56" y="474" font-size="11" font-weight="700" letter-spacing="1.5" fill="#BE185D">MEMORY</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="486" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="131" y="511">Memory Bank</text>
+  </g>
+
+  <!-- Production -->
+  <rect x="40" y="542" width="590" height="84" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="56" y="564" font-size="11" font-weight="700" letter-spacing="1.5" fill="#475569">PRODUCTION</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="56" y="576" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="181" y="601">Evaluation and Simulation</text>
+    <rect x="322" y="576" width="140" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="392" y="601">Agent Identity</text>
+    <rect x="478" y="576" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="553" y="601">Agent Gateway</text>
+  </g>
+
+  <!-- Integrates-with arrow -->
+  <line x1="656" y1="314" x2="704" y2="314" stroke="#94A3B8" stroke-width="1.75" marker-start="url(#arrow2)" marker-end="url(#arrow2)"/>
+
+  <!-- Separate products -->
+  <rect x="710" y="234" width="230" height="160" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="825" y="262" font-size="11" font-weight="700" letter-spacing="1.5" fill="#475569" text-anchor="middle">SEPARATE PRODUCTS</text>
+  <g font-size="14" fill="#0F172A" text-anchor="middle">
+    <rect x="735" y="278" width="180" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="825" y="303">Cloud Run</text>
+    <rect x="735" y="330" width="180" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="825" y="355">GKE</text>
+  </g>
+
+  <text x="20" y="682" font-size="12" fill="#64748B">* ADK is open source and runs anywhere</text>
+</svg>

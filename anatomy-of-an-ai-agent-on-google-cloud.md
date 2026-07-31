@@ -61,13 +61,15 @@ The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime wh
 Gemini Enterprise Agent Platform is [the evolution of Vertex AI](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up): the umbrella brand for most of the managed services in this post. By layer:
 
 - **Model**: Model Garden and grounding with Google Search
-- **Framework**: ADK, by Google's accounting (the framework itself is open source and runs anywhere)
+- **Framework**: ADK (open source, runs anywhere)
 - **Runtime**: Agent Runtime, with Sessions and its code-execution sandbox
 - **Knowledge**: RAG Engine and Vector Search
 - **Memory**: Memory Bank
-- **Production**: Agent Evaluation and Simulation, Agent Identity, and fleet-governance pieces this post doesn't cover, like Agent Gateway and Agent Registry
+- **Production**: Agent Evaluation and Simulation, Agent Identity, Agent Gateway, and Agent Registry
 
-Note that Cloud Run and GKE are separate products the platform [integrates with](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up).
+Agent Gateway and Agent Registry are the two this post hasn't covered: Agent Gateway manages your agent fleet from one control point, and Agent Registry maintains a central library of approved tools. Note that Cloud Run and GKE are separate products the platform [integrates with](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up).
+
+![What Gemini Enterprise Agent Platform covers](assets/agent-arch/geap-umbrella.svg)
 
 ## A reference architecture for the common case
 
