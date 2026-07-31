@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="700" viewBox="0 0 960 700" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="730" viewBox="0 0 960 730" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
   <defs>
     <marker id="arrow2" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 1 L 9 5 L 0 9 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="960" height="700" fill="#FFFFFF"/>
+  <rect width="960" height="730" fill="#FFFFFF"/>
 
   <!-- Platform umbrella container -->
-  <rect x="20" y="20" width="630" height="630" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="20" y="20" width="630" height="668" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="335" y="52" font-size="14" font-weight="700" letter-spacing="1.5" fill="#334155" text-anchor="middle">GEMINI ENTERPRISE AGENT PLATFORM</text>
   <text x="335" y="74" font-size="12" fill="#64748B" text-anchor="middle">the evolution of Vertex AI</text>
 
@@ -60,15 +60,17 @@
   </g>
 
   <!-- Production -->
-  <rect x="40" y="542" width="590" height="84" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <rect x="40" y="542" width="590" height="130" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
   <text x="56" y="564" font-size="11" font-weight="700" letter-spacing="1.5" fill="#475569">PRODUCTION</text>
   <g font-size="14" fill="#0F172A" text-anchor="middle">
     <rect x="56" y="576" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
     <text x="181" y="601">Evaluation and Simulation</text>
     <rect x="322" y="576" width="140" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
     <text x="392" y="601">Agent Identity</text>
-    <rect x="478" y="576" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
-    <text x="553" y="601">Agent Gateway</text>
+    <rect x="56" y="624" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="131" y="649">Agent Gateway</text>
+    <rect x="222" y="624" width="150" height="40" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="297" y="649">Agent Registry</text>
   </g>
 
   <!-- Integrates-with arrow -->
@@ -84,5 +86,5 @@
     <text x="825" y="355">GKE</text>
   </g>
 
-  <text x="20" y="682" font-size="12" fill="#64748B">* ADK is open source and runs anywhere</text>
+  <text x="20" y="712" font-size="12" fill="#64748B">* ADK is open source and runs anywhere</text>
 </svg>
