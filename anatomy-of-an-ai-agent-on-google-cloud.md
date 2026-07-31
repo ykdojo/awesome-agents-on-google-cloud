@@ -56,6 +56,21 @@ Three of the biggest gaps between a demo and a production agent: **Observability
 
 The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime when its managed sessions, memory, and evals are worth tying your code to Google-specific APIs, and graduate to GKE when you're running a fleet, not an agent.
 
+## What is Gemini Enterprise Agent Platform?
+
+Gemini Enterprise Agent Platform is [the evolution of Vertex AI](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up): the umbrella brand for most of the managed services in this post. By layer:
+
+- **Model**: Model Garden and grounding with Google Search
+- **Framework**: ADK (open source, runs anywhere)
+- **Runtime**: Agent Runtime, with Sessions and its code-execution sandbox
+- **Knowledge**: RAG Engine and Vector Search
+- **Memory**: Memory Bank
+- **Production**: Agent Evaluation and Simulation, Agent Identity, Agent Gateway, and Agent Registry
+
+Agent Gateway and Agent Registry are the two this post hasn't covered: Agent Gateway manages your agent fleet from one control point, and Agent Registry maintains a central library of approved tools. Note that Cloud Run and GKE are separate products the platform [integrates with](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up).
+
+![What Gemini Enterprise Agent Platform covers](assets/agent-arch/geap-umbrella.svg)
+
 ## A reference architecture for the common case
 
 For a typical production agent with tools, memory, and real users, a solid setup might look like: **ADK on Cloud Run** fronted by your existing auth; **Gemini Flash** by default with Pro for harder tasks; tools via **MCP**; **Cloud SQL** for session state and **Memory Bank** for long-term memory; traces into **Cloud Trace**. Every piece of it is swappable.
