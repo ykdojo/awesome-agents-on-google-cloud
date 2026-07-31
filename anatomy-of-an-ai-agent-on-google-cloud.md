@@ -56,17 +56,18 @@ Three of the biggest gaps between a demo and a production agent: **Observability
 
 The shortest honest version: start on Cloud Run with ADK, adopt Agent Runtime when its managed sessions, memory, and evals are worth tying your code to Google-specific APIs, and graduate to GKE when you're running a fleet, not an agent.
 
-## So what is Gemini Enterprise Agent Platform?
+## What is Gemini Enterprise Agent Platform?
 
-The one name from the intro this post hasn't placed yet, and that's because it isn't one layer: Gemini Enterprise Agent Platform is [the evolution of Vertex AI](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up), the umbrella brand for most of the managed services above rather than a separate product you choose. By layer:
+Gemini Enterprise Agent Platform is [the evolution of Vertex AI](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up): the umbrella brand for most of the managed services in this post. By layer:
 
 - **Model**: Model Garden and grounding with Google Search
 - **Framework**: ADK, by Google's accounting (the framework itself is open source and runs anywhere)
 - **Runtime**: Agent Runtime, with Sessions and its code-execution sandbox
-- **Knowledge and memory**: RAG Engine, Vector Search, Memory Bank
+- **Knowledge**: RAG Engine and Vector Search
+- **Memory**: Memory Bank
 - **Production**: Agent Evaluation and Simulation, Agent Identity, and fleet-governance pieces this post doesn't cover, like Agent Gateway and Agent Registry
 
-Equally useful is what sits outside it: Cloud Run and GKE are separate products the platform [integrates with](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up), A2A belongs to the Linux Foundation, the MCP Toolbox is open source, and Agent Search is [a child product of AI Applications](https://docs.cloud.google.com/generative-ai-app-builder/docs). So "should we adopt Gemini Enterprise Agent Platform?" is never one decision: you take it service by service, which is exactly how the decision guide above treats it.
+Note that Cloud Run and GKE are separate products the platform [integrates with](https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up).
 
 ## A reference architecture for the common case
 
