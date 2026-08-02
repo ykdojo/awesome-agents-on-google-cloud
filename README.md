@@ -4,6 +4,8 @@
 
 Start with the companion guide: **[The anatomy of an AI agent on Google Cloud: a complete guide](anatomy-of-an-ai-agent-on-google-cloud.md)**, a map of the whole landscape with diagrams and a decision guide.
 
+Then: **[Google GenAI SDK vs ADK: which one to use and when](google-genai-sdk-vs-adk.md)**, seven runnable situations comparing the plain SDK against the framework.
+
 ## Contents
 
 - [Frameworks](#frameworks)
