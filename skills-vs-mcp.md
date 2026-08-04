@@ -34,7 +34,7 @@ Blameless tone: name systems, not people. Action items must have owners.
 Verify the timeline against the incident channel before writing it.
 ```
 
-Anthropic's launch post calls this "like putting together an onboarding guide for a new hire," which also captures who can write one: the domain expert who owns the procedure.
+Anthropic's launch post calls this "like putting together an onboarding guide for a new hire."
 
 MCP has nothing for procedural knowledge. Its closest feature, `prompts`, is a menu of fill-in-the-blank templates a human picks from (most clients show them as slash commands); the agent never discovers one mid-task and decides to follow it, which is exactly what skills do.
 
