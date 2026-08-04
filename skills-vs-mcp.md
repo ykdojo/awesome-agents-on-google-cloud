@@ -42,7 +42,7 @@ MCP has nothing for procedural knowledge. Its closest feature, `prompts`, is a m
 
 ## Situation 2: give the agent live access to an external system
 
-A different case: the agent needs your production database, your CRM, a ticketing system behind SSO. That's a connection, with credentials, freshness, and access control attached.
+The agent needs your production database, your CRM, a ticketing system behind SSO. That's a connection, with credentials, freshness, and access control attached.
 
 Skills can reach external systems too, but indirectly. A skill that teaches `gh` gives a coding agent real access to GitHub, no server in sight; that argument is [much of why Willison liked skills](https://simonwillison.net/2025/Oct/16/claude-skills/) in the first place. But the skill is borrowing tools the environment already has: a CLI that's already installed and logged in, the agent acting as you, reaching whatever your shell reaches. MCP provides the access itself: the server owns the connection, auth is scoped per client via OAuth, the model never touches a credential, and it works from environments with no shell at all, for example a web chat.
 
