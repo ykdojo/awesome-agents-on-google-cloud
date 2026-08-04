@@ -12,7 +12,7 @@ The interesting part is the loading model, progressive disclosure. At rest, only
 
 ## What is MCP?
 
-The [Model Context Protocol](https://modelcontextprotocol.io/) is an open protocol, launched by Anthropic in November 2024 and donated to the Linux Foundation a year later, for connecting agents to external systems. A server exposes tools (functions with JSON Schemas); any MCP-speaking client can discover and call them. Locally, servers run as subprocesses over stdio; remotely, over HTTP with OAuth 2.1. Write the server once and every client can use it. Think of it as the Language Server Protocol, but instead of editors talking to programming languages, it's agents talking to the outside world.
+The [Model Context Protocol](https://modelcontextprotocol.io/) is an open protocol, launched by Anthropic in November 2024 and donated to the Linux Foundation a year later, for connecting agents to external systems. A server exposes tools (functions with JSON Schemas); any MCP-speaking client can discover and call them. Locally, the client launches the server as a subprocess and talks to it through the process's standard input and output; remotely, servers run over HTTP with OAuth. Write the server once and every client can use it. Think of it as the Language Server Protocol, but instead of editors talking to programming languages, it's agents talking to the outside world.
 
 MCP won its bet on adoption (the official SDKs see close to half a billion downloads a month), and it just went through the [2026-07-28 spec revision](https://blog.modelcontextprotocol.io/posts/2026-07-28/), the biggest rewrite since launch, which made the protocol stateless.
 
