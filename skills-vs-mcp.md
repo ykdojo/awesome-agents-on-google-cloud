@@ -18,7 +18,7 @@ MCP won its bet on adoption (the official SDKs see close to half a billion downl
 
 ## Situation 1: teach the agent how you do things
 
-Your team has a way of writing postmortems. A release checklist. A house style for SQL. That's procedure, not an API call, and today it lives in a wiki the agent never reads. This is what skills are for:
+Your team has a way of writing postmortems. A release checklist. A house style for SQL. That's procedure, not an API call. This is what skills are for:
 
 ```markdown
 ---
