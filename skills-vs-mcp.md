@@ -82,7 +82,7 @@ The combination was in [Anthropic's launch post](https://www.anthropic.com/engin
 | 4. Production trust, security, and governance | MCP |
 | 5. Use them together | Both, when it makes sense |
 
-The shortest honest version: **skills are knowledge, MCP is access.** Start with a skill when what's missing is know-how; a Markdown file is the cheapest thing to try. Reach for MCP the moment a credential, a no-shell client, or an auditor enters the picture. And plan on both: the choice is per capability, not per architecture.
+The shortest honest version: **skills are knowledge, MCP is access.** Start with a skill when what's missing is know-how; a Markdown file is the cheapest thing to try. Reach for MCP when you need a secure way to give the agent access to the outside world. And plan on both: the choice is per capability, not per architecture.
 
 ## Related reading
 
