@@ -6,6 +6,8 @@ Start with the companion guide: **[The anatomy of an AI agent on Google Cloud: a
 
 Then: **[Google GenAI SDK vs ADK: which one to use and when](google-genai-sdk-vs-adk.md)**, seven runnable situations comparing the plain SDK against the framework.
 
+Also: **[Skills vs MCP: when to use which](skills-vs-mcp.md)**, a five-situation decision guide for the two ways to extend an agent.
+
 ## Contents
 
 - [Frameworks](#frameworks)
