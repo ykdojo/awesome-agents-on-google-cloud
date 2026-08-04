@@ -2,7 +2,7 @@
 
 In October 2025, Simon Willison wrote that Claude Skills are "[awesome, maybe a bigger deal than MCP](https://simonwillison.net/2025/Oct/16/claude-skills/)." Nine months later he published "[Stateless MCP has recaptured my interest](https://simonwillison.net/2026/Jul/31/stateless-mcp/)" and spent that week shipping MCP tooling. When someone so heavily identified with the skills-are-bigger take shifts like that, "which one wins" is the wrong question.
 
-The right question is the one you face for each capability you add to an agent: do I write a skill, or set up an MCP server? This post is a decision guide: a short primer on each, five situations ending in verdicts, and a decision table. TL;DR: they solve different problems, and mature setups use both.
+The right question is the one you face for each capability you add to an agent: do I write a skill, or set up an MCP server? This post is a decision guide: a short primer on each, five situations ending in verdicts, and a decision table. tl;dr: they solve different problems, and mature setups use both.
 
 ## What are skills?
 
