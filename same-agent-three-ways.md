@@ -1,7 +1,5 @@
 # I built the same agent three ways: Interactions API, ADK, and the Antigravity SDK
 
-> Draft v1, 2026-08-06. Private until release. Runnable code: [`same-agent-three-ways-code/`](same-agent-three-ways-code/). Status: all three verified locally end to end and smoke-tested on Cloud Run (Interactions verified 2026-08-07 on `gemini-3.6-flash`; pro models have zero free-tier quota, so the served leg 1 must stay on flash).
-
 Google's stack now gives you three genuinely different ways to build an agent: the [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview) (the Gemini API's agent-era surface), [ADK](https://adk.dev/) (the framework), and the [Antigravity SDK](https://antigravity.google/docs/sdk/overview) (the harness behind the Antigravity CLI). The cleanest way to compare them is to build the same agent on all three and watch what changes: who supplies the agent loop, how you hand it tools, and which models are compatible.
 
 The agent we're building answers one kind of question: "what does Hacker News think about X?" It queries `bigquery-public-data.hacker_news.full`, the public BigQuery dataset with all 49 million HN stories and comments, refreshed to about a day behind. Each version needs the same three abilities: turn a question into SQL, run it, and summarize the opinions it finds.
