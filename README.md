@@ -6,7 +6,10 @@ Start with the companion guide: **[The anatomy of an AI agent on Google Cloud: a
 
 Then: **[Google GenAI SDK vs ADK: which one to use and when](google-genai-sdk-vs-adk.md)**, seven runnable situations comparing the plain SDK against the framework.
 
-Also: **[Skills vs MCP: when to use which](skills-vs-mcp.md)**, a five-situation decision guide for the two ways to extend an agent.
+Also:
+
+- **[Skills vs MCP: when to use which](skills-vs-mcp.md)**, a five-situation decision guide for the two ways to extend an agent.
+- **[I built the same agent three ways: Interactions API, ADK, and the Antigravity SDK](same-agent-three-ways.md)**, the same Hacker News opinion agent on the API, the framework, and the harness, all served on Cloud Run.
 
 ## Contents
 
