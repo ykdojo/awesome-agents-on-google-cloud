@@ -11,7 +11,7 @@ Each build also wires in BigQuery a different way: a hand-written function on th
 For this, we need to set up two credentials:
 
 ```bash
-export GOOGLE_API_KEY="..."   # aistudio.google.com, free tier is enough
+export GOOGLE_API_KEY="..."   # aistudio.google.com
 gcloud auth application-default login
 ```
 
