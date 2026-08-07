@@ -90,9 +90,11 @@ while True:
     )
 ```
 
-Each round executes whatever `function_call` steps the model produced, sends the results back as the next input, and repeats until a response has no function calls left. Note what never gets sent: the conversation history. The server already has it, and `previous_interaction_id` just points at the previous turn, so each request carries only what's new. The `client` is the SDK's entry point to the Gemini API, and creating it with no arguments makes it read `GOOGLE_API_KEY` from the environment locally. On Cloud Run the same key arrives as an env var mounted from Secret Manager (details below). The model does the rest: it decides what SQL to run and when it has enough to answer. ([Full file.](same-agent-three-ways-code/leg1_interactions.py))
+Each round executes whatever `function_call` steps the model produced, sends the results back as the next input, and repeats until a response has no function calls left. Note what never gets sent: the conversation history. The server already has it, and `previous_interaction_id` just points at the previous turn, so each request carries only what's new. The `client` is the SDK's entry point to the Gemini API, and creating it with no arguments makes it read `GOOGLE_API_KEY` from the environment locally. On Cloud Run the same key arrives as an env var mounted from Secret Manager (details below). The model does the rest: it decides what SQL to run and when it has enough to answer. ([Full file.](same-agent-three-ways-code/method1_interactions.py))
 
-Why not MCP here? Because it's not supported yet. The [Interactions API docs](https://ai.google.dev/gemini-api/docs/interactions-overview) list it as a limitation: "Gemini 3 does not support remote MCP, this is coming soon."**Verdict: the most code, the fewest dependencies, and total control.**
+Why not MCP here? Because it's not supported yet. The [Interactions API docs](https://ai.google.dev/gemini-api/docs/interactions-overview) list it as a limitation: "Gemini 3 does not support remote MCP, this is coming soon."
+
+**Verdict: the most code, the fewest dependencies, and total control.**
 
 ## Method 2: ADK, the framework brings the tools
 
@@ -116,7 +118,7 @@ root_agent = Agent(name="hn_opinion_agent", model=..., instruction=..., tools=[t
 
 Auth never touches the API key: `credentials` is `google.auth.default()`, the same gcloud login, and the model uses your Cloud account via `GOOGLE_GENAI_USE_ENTERPRISE=TRUE`. On Cloud Run both become the service account.
 
-The framework runs the loop and keeps sessions, the conversation history across turns: in memory here, in a database when you need it to persist. ([Full file.](same-agent-three-ways-code/leg2_adk.py))
+The framework runs the loop and keeps sessions, the conversation history across turns: in memory here, in a database when you need it to persist. ([Full file.](same-agent-three-ways-code/method2_adk.py))
 
 **Verdict: the least code for the most capability, with prebuilt tools that let the agent explore the data on its own.**
 
@@ -141,7 +143,7 @@ async with Agent(config) as agent:
     response = await agent.chat(question)
 ```
 
-This hands the harness a system instruction and one MCP server, and `agent.chat()` does everything: planning, tool calls, and the final summary come back in one response. The agent loop here is the one that powers the Antigravity CLI, including its built-in file and shell tools. BigQuery arrives over MCP: `bigquery.googleapis.com/mcp` is Google's fully managed endpoint. It takes OAuth only (`gcloud auth print-access-token`). `enabled_tools` is the allowlist of MCP tools the agent is allowed to use: the endpoint offers both `execute_sql` and `execute_sql_readonly`, and listing only the readonly one is what makes this agent read-only. Model auth works like ADK's: your Cloud account locally, the service account on Cloud Run. ([Full file.](same-agent-three-ways-code/leg3_antigravity.py))
+This hands the harness a system instruction and one MCP server, and `agent.chat()` does everything: planning, tool calls, and the final summary come back in one response. The agent loop here is the one that powers the Antigravity CLI, including its built-in file and shell tools. BigQuery arrives over MCP: `bigquery.googleapis.com/mcp` is Google's fully managed endpoint. It takes OAuth only (`gcloud auth print-access-token`). `enabled_tools` is the allowlist of MCP tools the agent is allowed to use: the endpoint offers both `execute_sql` and `execute_sql_readonly`, and listing only the readonly one is what makes this agent read-only. Model auth works like ADK's: your Cloud account locally, the service account on Cloud Run. ([Full file.](same-agent-three-ways-code/method3_antigravity.py))
 
 Two things to know before picking this one:
 
@@ -164,9 +166,9 @@ Two things to know before picking this one:
 
 All three deploy on Cloud Run. The difference is how much of the service you write.
 
-- **Interactions API**: wrap the loop in a small FastAPI app ([code](same-agent-three-ways-code/serving/leg1/main.py)). Since conversation state is server-side, your service stays stateless; clients just send back `previous_interaction_id`. One catch: the Interactions API still can't use the service account, so this is the one service that needs an API key. Mount it from Secret Manager.
-- **ADK**: no server code to write. `adk api_server` serves locally; `adk deploy cloud_run` generates the server, container, and deploy config ([code](same-agent-three-ways-code/serving/leg2/hn_opinion_agent/agent.py)). Two catches: the toolset's extra dependencies (bigquery, dataplex) must be in the agent folder's own requirements.txt, and the deploy doesn't forward env vars, so set `GOOGLE_GENAI_USE_ENTERPRISE` on the service afterward. (Agent Runtime is the fully managed alternative if you'd rather not own a service.)
-- **Antigravity SDK**: wrap `agent.chat()` yourself ([code](same-agent-three-ways-code/serving/leg3/main.py)), and the Linux container it already needs on some machines becomes your Cloud Run image. One serving-only change: the MCP Authorization header can't come from your laptop's gcloud login anymore; mint and refresh the token from the service account.
+- **Interactions API**: wrap the loop in a small FastAPI app ([code](same-agent-three-ways-code/serving/method1/main.py)). Since conversation state is server-side, your service stays stateless; clients just send back `previous_interaction_id`. One catch: the Interactions API still can't use the service account, so this is the one service that needs an API key. Mount it from Secret Manager.
+- **ADK**: no server code to write. `adk api_server` serves locally; `adk deploy cloud_run` generates the server, container, and deploy config ([code](same-agent-three-ways-code/serving/method2/hn_opinion_agent/agent.py)). Two catches: the toolset's extra dependencies (bigquery, dataplex) must be in the agent folder's own requirements.txt, and the deploy doesn't forward env vars, so set `GOOGLE_GENAI_USE_ENTERPRISE` on the service afterward. (Agent Runtime is the fully managed alternative if you'd rather not own a service.)
+- **Antigravity SDK**: wrap `agent.chat()` yourself ([code](same-agent-three-ways-code/serving/method3/main.py)), and the Linux container it already needs on some machines becomes your Cloud Run image. One serving-only change: the MCP Authorization header can't come from your laptop's gcloud login anymore; mint and refresh the token from the service account.
 
 Locking the services down is quick. Deploy with `--no-allow-unauthenticated` and only callers you grant IAM access can reach them. To test, send an identity token (`curl -H "Authorization: Bearer $(gcloud auth print-identity-token)"`) or use `gcloud run services proxy`. For browser access, put IAP in front. Agent security on Cloud Run is just service security. The only secret in the whole setup is the Interactions build's API key, and Secret Manager holds it.
 

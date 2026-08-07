@@ -1,16 +1,16 @@
-"""Leg 3: the same agent on the Antigravity SDK, tools via MCP.
+"""Method 3: the same agent on the Antigravity SDK, tools via MCP.
 
 The harness owns everything: the loop, built-in file and shell tools,
 deny-by-default permission policies. BigQuery arrives over MCP, and there is no server to run: this
 points at Google's fully managed BigQuery MCP endpoint. That endpoint takes
 OAuth only (no API keys), so a Bearer token rides in the headers.
 
-The SDK has no macOS x86_64 wheel; on an Intel Mac run ./leg3_container.sh,
+The SDK has no macOS x86_64 wheel; on an Intel Mac run ./method3_container.sh,
 which executes this file in a Linux container.
 
 Requires your Cloud account, no API key: GOOGLE_GENAI_USE_ENTERPRISE=TRUE,
 GOOGLE_CLOUD_PROJECT, application default credentials, and
-BIGQUERY_OAUTH_TOKEN (leg3_container.sh mints it from gcloud).
+BIGQUERY_OAUTH_TOKEN (method3_container.sh mints it from gcloud).
 """
 
 import asyncio

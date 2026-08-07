@@ -1,4 +1,4 @@
-"""Leg 2: the same agent in ADK with the first-party BigQuery toolset.
+"""Method 2: the same agent in ADK with the first-party BigQuery toolset.
 
 The framework owns the loop and ships the tools: execute_sql plus metadata
 tools (get_table_info, list_table_ids, ...), so the agent can discover the

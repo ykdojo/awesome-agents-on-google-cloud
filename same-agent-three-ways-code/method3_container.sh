@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs leg 3 in a Linux container. Needed on Intel macOS, where
+# Runs method 3 in a Linux container. Needed on Intel macOS, where
 # google-antigravity ships no x86_64 wheel (Apple Silicon and Linux only).
 # On Apple Silicon or Linux, `pip install google-antigravity` and run the
 # script directly instead.
@@ -21,4 +21,4 @@ docker run --rm -v "$PWD":/work -w /work \
   -e BIGQUERY_OAUTH_TOKEN="$(gcloud auth print-access-token)" \
   -e GOOGLE_CLOUD_PROJECT="$(gcloud config get-value project 2>/dev/null)" \
   python:3.12-slim \
-  bash -c 'pip install -q -r requirements-leg3.txt && python leg3_antigravity.py "$@"' -- "$@"
+  bash -c 'pip install -q -r requirements-method3.txt && python method3_antigravity.py "$@"' -- "$@"

@@ -1,8 +1,8 @@
-"""Leg 1: the Interactions API with a hand-written BigQuery tool.
+"""Method 1: the Interactions API with a hand-written BigQuery tool.
 
 You write the tool (a plain function) and run the tool loop yourself; the
 server keeps conversation state via previous_interaction_id. Remote MCP is
-not yet available for plain model calls, which is why this leg hand-rolls.
+not yet available for plain model calls, which is why this method hand-rolls.
 
 Requires GOOGLE_API_KEY and application default credentials
 (gcloud auth application-default login).

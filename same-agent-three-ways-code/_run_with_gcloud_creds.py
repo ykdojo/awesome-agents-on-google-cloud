@@ -2,7 +2,7 @@
 but no application default credentials, so patch google.auth.default to use a
 token minted by gcloud, then exec the target script.
 
-Usage: python _run_with_gcloud_creds.py leg1_interactions.py [args...]
+Usage: python _run_with_gcloud_creds.py method1_interactions.py [args...]
 """
 
 import os
