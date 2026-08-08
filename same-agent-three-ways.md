@@ -182,6 +182,6 @@ The service account needed almost no setup. Every Cloud Run service runs as an i
 
 One caveat before copying this setup: the default account is broad. On many projects, mine included, it carries the project-level Editor role. For anything beyond a demo, create a dedicated service account per service with only the roles it needs, and pass it at deploy time with `--service-account`.
 
-## Which one?
+## Which one to use
 
 This experience made it clearer to me that a sensible default for building an agent is ADK plus Cloud Run. You get a comprehensive toolset plus MCP support. Sessions, including the conversation history, are easy to manage. You can also use any model you want, not just Gemini and Gemma. However, if you want to understand how agents work, the Interactions API is a good way to do that. And if you want your agent to be able to edit files and run shell commands, the Antigravity SDK is a solid option as well.
