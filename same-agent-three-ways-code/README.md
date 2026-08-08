@@ -13,11 +13,11 @@ python method1_interactions.py "What do people on HN think about Rust?"
 
 | File | What it shows |
 |---|---|
-| `method1_interactions.py` | Interactions API: hand-written execute_sql tool, you run the loop, server keeps state |
-| `method2_adk.py` | ADK: the first-party BigQuery toolset, framework runs the loop, agent discovers schema |
-| `method3_antigravity.py` | Antigravity SDK: prepackaged harness, BigQuery via Google's hosted MCP endpoint |
-| `method3_container.sh` | Runs method 3 in a Linux container (no google-antigravity wheel for Intel macOS) |
-| `_run_with_gcloud_creds.py` | Test-only ADC shim for this machine, not article material |
+| [`method1_interactions.py`](method1_interactions.py) | Interactions API: hand-written execute_sql tool, you run the loop, server keeps state |
+| [`method2_adk.py`](method2_adk.py) | ADK: the first-party BigQuery toolset, framework runs the loop, agent discovers schema |
+| [`method3_antigravity.py`](method3_antigravity.py) | Antigravity SDK: prepackaged harness, BigQuery via Google's hosted MCP endpoint |
+| [`method3_container.sh`](method3_container.sh) | Runs method 3 in a Linux container (no google-antigravity wheel for Intel macOS) |
+| [`_run_with_gcloud_creds.py`](_run_with_gcloud_creds.py) | Test-only ADC shim for this machine, not article material |
 
 Test status (2026-08-06):
 
