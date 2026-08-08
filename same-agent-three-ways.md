@@ -147,7 +147,7 @@ async with Agent(config) as agent:
 
 This hands the harness a system instruction and one MCP server, and `agent.chat()` does everything: planning, tool calls, and the final summary come back in one response. The agent loop here is the one that powers the Antigravity CLI, including its built-in file and shell tools.
 
-BigQuery arrives over MCP: `bigquery.googleapis.com/mcp` is Google's fully managed endpoint. It takes OAuth only (`gcloud auth print-access-token`). `enabled_tools` is the allowlist of MCP tools the agent is allowed to use: the endpoint offers both `execute_sql` and `execute_sql_readonly`, and listing only the readonly one is what makes this agent read-only. Model auth works like ADK's: your Cloud account locally, the service account on Cloud Run. ([Full file.](same-agent-three-ways-code/method3_antigravity.py))
+BigQuery arrives over MCP. `bigquery.googleapis.com/mcp` is Google's fully managed endpoint. It takes OAuth only (`gcloud auth print-access-token`). `enabled_tools` is the allowlist of MCP tools the agent is allowed to use: the endpoint offers both `execute_sql` and `execute_sql_readonly`, and listing only the readonly one is what makes this agent read-only. Model auth works like ADK's: your Cloud account locally, the service account on Cloud Run. ([Full file.](same-agent-three-ways-code/method3_antigravity.py))
 
 Two things to know before picking this one:
 
