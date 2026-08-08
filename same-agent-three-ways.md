@@ -163,7 +163,7 @@ Two things to know before picking this one:
 | Who supplies the loop | you | the framework | the harness |
 | BigQuery wiring | your function | first-party toolset | MCP (hosted endpoint) |
 | Conversation state | server-side via `previous_interaction_id` | sessions, in memory or in a database | harness-managed, saved to disk and resumable |
-| Models | Gemini | widest: Gemini, Gemma, LiteLLM for the rest | Gemini (+ local OpenAI-compat) |
+| Models | Gemini, Gemma | widest: Gemini, Gemma, LiteLLM for the rest | Gemini (+ local OpenAI-compat) |
 | MCP support | not yet ("coming soon") | `MCPToolset`, stdio + HTTP | `mcp_servers`, stdio + HTTP |
 
 ## Serving it
