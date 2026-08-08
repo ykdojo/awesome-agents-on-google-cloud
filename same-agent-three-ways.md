@@ -178,7 +178,7 @@ Locking the services down is quick. Deploy with `--no-allow-unauthenticated` and
 
 ## A note on the service account
 
-The service account needed almost no setup. Every Cloud Run service runs as an identity, and by default that's the project's default compute service account. That one identity covered both the model calls and the BigQuery queries for all three services. The single grant I added by hand was for the Interactions service: permission to read the API key secret (`roles/secretmanager.secretAccessor`, granted on the secret itself).
+The service account needed almost no setup. Every Cloud Run service runs as an identity, and by default that's the project's default compute service account. That one identity covered the BigQuery queries for all three services, plus the model calls for the ADK and Antigravity builds. The single grant I added by hand was for the Interactions service: permission to read the API key secret (`roles/secretmanager.secretAccessor`, granted on the secret itself).
 
 One caveat before copying this setup: the default account is broad. On many projects, mine included, it carries the project-level Editor role. For anything beyond a demo, create a dedicated service account per service with only the roles it needs, and pass it at deploy time with `--service-account`.
 
