@@ -21,7 +21,7 @@ gcloud auth application-default login
 | Model, ADK and Antigravity | your Cloud account (`gcloud` login + `GOOGLE_GENAI_USE_ENTERPRISE=TRUE`) | service account |
 | BigQuery, all three | gcloud login | service account |
 
-Why the split: the Interactions API exists only on the Gemini API surface; the Gemini Enterprise Agent Platform (formerly known as Vertex AI) rejects it. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
+Why the split: the Interactions API exists only on the Gemini API surface; the Gemini Enterprise Agent Platform (formerly known as Vertex AI) doesn't support it. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
 
 BigQuery's free tier (1 TB of queries/month) easily covers the demo queries (1 to 17 GB scans). Versions at time of writing: `google-genai 2.17.0`, `google-adk 2.6.2`, `google-antigravity 0.1.10`, model `gemini-3.6-flash`.
 
