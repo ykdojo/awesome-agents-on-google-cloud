@@ -92,6 +92,8 @@ while True:
 
 Each round executes whatever `function_call` steps the model produced, sends the results back as the next input, and repeats until a response has no function calls left. Note what never gets sent: the conversation history. The server already has it, and `previous_interaction_id` just points at the previous turn, so each request carries only what's new. The `client` is the SDK's entry point to the Gemini API, and creating it with no arguments makes it read `GOOGLE_API_KEY` from the environment locally. On Cloud Run the same key arrives as an env var mounted from Secret Manager (details below). The model does the rest: it decides what SQL to run and when it has enough to answer. ([Full file.](same-agent-three-ways-code/method1_interactions.py))
 
+One thing worth knowing before moving on: `interactions.create` has two flavors. This post uses `model=`: you name a model, declare your tools, and run the tool loop yourself. The other flavor, `agent=`, talks to an agent hosted on Google's side, and the platform runs the whole loop server-side. The catch is that a hosted agent can only use tools the platform can reach, like remote MCP endpoints, never a function in your process. Our tool is a local Python function, so this build needs `model=`.
+
 Why not MCP here? Because it's not supported yet. The [Interactions API docs](https://ai.google.dev/gemini-api/docs/interactions-overview) list it as a limitation: "Gemini 3 does not support remote MCP, this is coming soon."
 
 **Verdict: the most code, the fewest dependencies, and total control.**
