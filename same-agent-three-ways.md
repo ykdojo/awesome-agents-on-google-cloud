@@ -120,7 +120,7 @@ root_agent = Agent(name="hn_opinion_agent", model=..., instruction=..., tools=[t
 
 Auth never touches the API key. The BigQuery toolset wants an explicit credentials object, and `google.auth.default()` provides one: it returns the gcloud login from the local environment, plus a project ID this build ignores. The model side is just the env var: `GOOGLE_GENAI_USE_ENTERPRISE=TRUE` sends model calls through your Cloud account. On Cloud Run, the BigQuery queries and the model calls both run as the service account.
 
-The framework runs the loop and keeps sessions, the conversation history across turns: in memory here, in a database when you need it to persist. ([Full file.](same-agent-three-ways-code/method2_adk.py))
+The framework runs the loop and keeps sessions, including the conversation history across turns: in memory here, in a database when you need it to persist. ([Full file.](same-agent-three-ways-code/method2_adk.py))
 
 **Verdict: the least code for the most capability, with prebuilt tools that let the agent explore the data on its own.**
 
