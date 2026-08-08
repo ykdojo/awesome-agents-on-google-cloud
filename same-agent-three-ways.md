@@ -23,7 +23,7 @@ gcloud auth application-default login
 
 Why the split: the way this post uses the Interactions API runs on the Gemini API, and the Gemini API authenticates with a key. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
 
-More precisely, the Interactions API can address a model (`model=`) or an agent hosted on Google's side (`agent=`), where the platform runs the whole loop server-side with tools it can reach. Our tool is a local Python function, so this build uses `model=` and runs the tool loop itself. The Gemini Enterprise Agent Platform (formerly known as Vertex AI) has an experimental Interactions API of its own, but it rejected `model=` interactions with every model we tried.
+More precisely, the Interactions API can address a model (`model=`) or an agent hosted on Google's side (`agent=`), where the platform runs the whole loop server-side with tools it can reach. Our tool is a local Python function, so this build uses `model=` and runs the tool loop itself. The Gemini Enterprise Agent Platform (formerly known as Vertex AI) has an experimental Interactions API of its own, but it rejected `model=` interactions with every model I tried.
 
 BigQuery's free tier (1 TB of queries/month) easily covers the demo queries (scans of roughly 1 to 17 GB). Versions at time of writing: `google-genai 2.17.0`, `google-adk 2.6.2`, `google-antigravity 0.1.10`, model `gemini-3.6-flash`.
 
