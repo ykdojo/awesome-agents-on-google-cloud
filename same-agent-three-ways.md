@@ -21,9 +21,9 @@ gcloud auth application-default login
 | Model, ADK and Antigravity | your Cloud account (`gcloud` login + `GOOGLE_GENAI_USE_ENTERPRISE=TRUE`) | service account |
 | BigQuery, all three | gcloud login | service account |
 
-Why the split: the Interactions API has two flavors. This post uses `model=`: you name a model, declare your tools, and run the tool loop yourself. The other flavor, `agent=`, talks to an agent hosted on Google's side, and the platform runs the whole loop server-side with tools the platform can reach, never a function in your process. Our tool is a local Python function, so this build needs `model=`.
+Why the split: the way this post uses the Interactions API runs on the Gemini API, and the Gemini API authenticates with a key. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
 
-The `model=` flavor lives only on the Gemini API today, hence the key. The Gemini Enterprise Agent Platform (formerly known as Vertex AI) has an experimental Interactions API of its own, but it doesn't accept `model=` interactions yet. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
+More precisely, the Interactions API can address a model (`model=`) or an agent hosted on Google's side (`agent=`), where the platform runs the whole loop server-side with tools it can reach. Our tool is a local Python function, so this build uses `model=` and runs the tool loop itself. The Gemini Enterprise Agent Platform (formerly known as Vertex AI) has an experimental Interactions API of its own, but it rejected `model=` interactions with every model we tried.
 
 BigQuery's free tier (1 TB of queries/month) easily covers the demo queries (scans of roughly 1 to 17 GB). Versions at time of writing: `google-genai 2.17.0`, `google-adk 2.6.2`, `google-antigravity 0.1.10`, model `gemini-3.6-flash`.
 
