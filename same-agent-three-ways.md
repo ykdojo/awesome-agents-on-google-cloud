@@ -118,7 +118,7 @@ root_agent = Agent(name="hn_opinion_agent", model=..., instruction=..., tools=[t
 
 `BigQueryToolset` is ADK's built-in BigQuery integration: it ships `execute_sql` plus metadata tools like `get_table_info`, so the agent inspects the table schema itself instead of being told. `WriteMode.BLOCKED` makes it read-only in one line.
 
-Auth never touches the API key: `credentials` is `google.auth.default()`, the same gcloud login, and the model uses your Cloud account via `GOOGLE_GENAI_USE_ENTERPRISE=TRUE`. On Cloud Run both become the service account.
+Auth never touches the API key. The BigQuery toolset wants an explicit credentials object, and `google.auth.default()` provides one: it returns the gcloud login from the local environment, plus a project ID this build ignores. The model side is just the env var: `GOOGLE_GENAI_USE_ENTERPRISE=TRUE` sends model calls through your Cloud account. On Cloud Run both become the service account.
 
 The framework runs the loop and keeps sessions, the conversation history across turns: in memory here, in a database when you need it to persist. ([Full file.](same-agent-three-ways-code/method2_adk.py))
 
