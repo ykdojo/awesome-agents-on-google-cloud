@@ -176,6 +176,12 @@ All three deploy on Cloud Run. The difference is how much of the service you wri
 
 Locking the services down is quick. Deploy with `--no-allow-unauthenticated` and only callers you grant IAM access can reach them. To test, send an identity token (`curl -H "Authorization: Bearer $(gcloud auth print-identity-token)"`) or use `gcloud run services proxy`. For browser access, put IAP in front.
 
+## A note on the service account
+
+The service account needed almost no setup. Every Cloud Run service runs as an identity, and by default that's the project's default compute service account. That one identity covered both the model calls and the BigQuery queries for all three services. The single grant I added by hand was for the Interactions service: permission to read the API key secret (`roles/secretmanager.secretAccessor`, granted on the secret itself).
+
+One caveat before copying this setup: the default account is broad. On many projects, mine included, it carries the project-level Editor role. For anything beyond a demo, create a dedicated service account per service with only the roles it needs, and pass it at deploy time with `--service-account`.
+
 ## Which one?
 
 This experience made it clearer to me that a sensible default for building an agent is ADK plus Cloud Run. You get a comprehensive toolset plus MCP support. Sessions, including the conversation history, are easy to manage. You can also use any model you want, not just Gemini and Gemma. However, if you want to understand how agents work, the Interactions API is a good way to do that. And if you want your agent to be able to edit files and run shell commands, the Antigravity SDK is a solid option as well.
