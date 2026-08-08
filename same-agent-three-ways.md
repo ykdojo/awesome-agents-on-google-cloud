@@ -21,7 +21,9 @@ gcloud auth application-default login
 | Model, ADK and Antigravity | your Cloud account (`gcloud` login + `GOOGLE_GENAI_USE_ENTERPRISE=TRUE`) | service account |
 | BigQuery, all three | gcloud login | service account |
 
-Why the split: the Interactions API exists only on the Gemini API surface; the Gemini Enterprise Agent Platform (formerly known as Vertex AI) doesn't support it yet. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
+Why the split: the Interactions API has two flavors. This post uses `model=`: you name a model, declare your tools, and run the tool loop yourself. The other flavor, `agent=`, talks to an agent hosted on Google's side, and the platform runs the whole loop server-side with tools the platform can reach, never a function in your process. Our tool is a local Python function, so this build needs `model=`.
+
+The `model=` flavor lives only on the Gemini API today, hence the key. The Gemini Enterprise Agent Platform (formerly known as Vertex AI) has an experimental Interactions API of its own, but it doesn't accept `model=` interactions yet. ADK and the Antigravity SDK talk to your Cloud project and never touch a key.
 
 BigQuery's free tier (1 TB of queries/month) easily covers the demo queries (scans of roughly 1 to 17 GB). Versions at time of writing: `google-genai 2.17.0`, `google-adk 2.6.2`, `google-antigravity 0.1.10`, model `gemini-3.6-flash`.
 
@@ -91,8 +93,6 @@ while True:
 ```
 
 Each round executes whatever `function_call` steps the model produced, sends the results back as the next input, and repeats until a response has no function calls left. Note what never gets sent: the conversation history. The server already has it, and `previous_interaction_id` just points at the previous turn, so each request carries only what's new. The `client` is the SDK's entry point to the Gemini API, and creating it with no arguments makes it read `GOOGLE_API_KEY` from the environment locally. On Cloud Run the same key arrives as an env var mounted from Secret Manager (details below). The model does the rest: it decides what SQL to run and when it has enough to answer. ([Full file.](same-agent-three-ways-code/method1_interactions.py))
-
-One thing worth knowing before moving on: `interactions.create` has two flavors. This post uses `model=`: you name a model, declare your tools, and run the tool loop yourself. The other flavor, `agent=`, talks to an agent hosted on Google's side, and the platform runs the whole loop server-side. The catch is that a hosted agent can only use tools the platform can reach, like remote MCP endpoints, never a function in your process. Our tool is a local Python function, so this build needs `model=`.
 
 Why not MCP here? Because it's not supported yet. The [Interactions API docs](https://ai.google.dev/gemini-api/docs/interactions-overview) list it as a limitation: "Gemini 3 does not support remote MCP, this is coming soon."
 
