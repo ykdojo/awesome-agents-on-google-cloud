@@ -174,7 +174,7 @@ All three deploy on Cloud Run. The difference is how much of the service you wri
 - **ADK**: no server code to write. `adk api_server` serves locally; `adk deploy cloud_run` generates the server, container, and deploy config ([code](same-agent-three-ways-code/serving/method2/hn_opinion_agent/agent.py)). Two catches: the toolset's extra dependencies (bigquery, dataplex) must be in the agent folder's own requirements.txt, and the deploy doesn't forward env vars, so set `GOOGLE_GENAI_USE_ENTERPRISE` on the service afterward. (Agent Runtime is the fully managed alternative if you'd rather not own a service.)
 - **Antigravity SDK**: wrap `agent.chat()` yourself ([code](same-agent-three-ways-code/serving/method3/main.py)) and package it as a container image for Cloud Run. One serving-only change: the MCP Authorization header can't come from your laptop's gcloud login anymore; mint and refresh the token from the service account.
 
-Locking the services down is quick. Deploy with `--no-allow-unauthenticated` and only callers you grant IAM access can reach them. To test, send an identity token (`curl -H "Authorization: Bearer $(gcloud auth print-identity-token)"`) or use `gcloud run services proxy`. For browser access, put IAP in front. Agent security on Cloud Run is just service security. The only secret in the whole setup is the Interactions build's API key, and Secret Manager holds it.
+Locking the services down is quick. Deploy with `--no-allow-unauthenticated` and only callers you grant IAM access can reach them. To test, send an identity token (`curl -H "Authorization: Bearer $(gcloud auth print-identity-token)"`) or use `gcloud run services proxy`. For browser access, put IAP in front.
 
 ## Which one?
 
