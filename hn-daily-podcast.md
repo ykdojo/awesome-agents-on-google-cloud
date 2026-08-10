@@ -104,7 +104,9 @@ Version two adds a fact-check stage inside each story's lane, auditing the diges
 
 ![Version two: each story fact-checked in its own lane](assets/hn-daily-podcast/graph-storycheck.png)
 
-I ran both on the same day's stories, and version two won. Both versions end with every claim verified, because failed claims either get fixed in a rewrite or removed by the cut path, but version two caught problems earlier. The audits repaired 6 of the 10 story digests before the script was written, and the script then needed one rewrite instead of two. The resulting episode also grounded what it said in attributed verbatim quotes, where the first version leaned on vague summaries. Version three closes the symmetry: the per-story check loops the same way the script-level check does, with failed audits sent back for repair, capped at two rounds:
+I ran both on the same day's stories, and version two won. Both versions end with every claim verified, because failed claims either get fixed in a rewrite or removed by the cut path, but version two caught problems earlier. The audits repaired 6 of the 10 story digests before the script was written, and the script then needed one rewrite instead of two. The resulting episode also grounded what it said in attributed verbatim quotes, where the first version leaned on vague summaries.
+
+Version three closes the symmetry: the per-story check loops the same way the script-level check does, with failed audits sent back for repair, capped at two rounds:
 
 ![The shipped graph: per-story repair loops plus the script-level rewrite loop](assets/hn-daily-podcast/graph-storycheck-loop.png)
 
