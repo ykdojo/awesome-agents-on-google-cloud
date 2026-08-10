@@ -146,7 +146,7 @@ The first command deploys the pipeline as a job, and the second tells Cloud Sche
 
 The publish node uploads the mp3 and regenerates `feed.xml`: RSS 2.0 with the iTunes namespace tags - cover art and category for the show, and for each episode a link to its mp3, an ID, a date, and a duration. That file on a public bucket is a complete podcast. Paste the feed URL into any podcast app that can add a show by URL, like Pocket Casts, Overcast, or Apple Podcasts with its "Follow a Show by URL" option.
 
-Directory listing is separate: submit the feed once to Apple Podcasts Connect and Spotify for Creators, and since most smaller apps read Apple's directory, those two cover nearly everyone.
+Directory listing is separate: submit the feed once to Apple Podcasts Connect and Spotify for Creators.
 
 ## The code
 
