@@ -110,7 +110,7 @@ Version three closes the symmetry: the per-story check loops the same way the sc
 
 ![The shipped graph: per-story repair loops plus the script-level rewrite loop](assets/hn-daily-podcast/graph-storycheck-loop.png)
 
-## Making it talk
+## Turning the script into speech
 
 The script renders in segments of roughly 90 seconds, one TTS call per segment, and code concatenates the audio with a beat of silence between segments. A single call for the whole episode goes through, but it does not really work: the audio quality degrades after the first few minutes. Each segment call looks like this:
 
