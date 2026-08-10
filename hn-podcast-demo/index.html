@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hacker News Digest — demo episode</title>
+<style>
+  body {
+    margin: 0;
+    background: #101418;
+    color: #e6e9ec;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+  }
+  .card { max-width: 480px; text-align: center; }
+  img { width: 100%; max-width: 360px; border-radius: 16px; }
+  h1 { font-size: 1.5rem; margin: 24px 0 4px; }
+  .accent { color: #ff6600; }
+  p { color: #9aa5b1; line-height: 1.5; margin: 8px 0 20px; }
+  audio { width: 100%; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img src="cover.png" alt="Hacker News Digest cover art: two robot faces">
+    <h1>Hacker News <span class="accent">Digest</span></h1>
+    <p>A daily Hacker News briefing hosted by two robots, generated end to end
+    on Google Cloud: an ADK graph curates the front page, writes and
+    fact-checks the script, and Gemini TTS reads it. Demo episode below.</p>
+    <audio controls preload="metadata" src="demo-episode.mp3"></audio>
+  </div>
+</body>
+</html>
