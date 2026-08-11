@@ -95,17 +95,18 @@
   <text x="485" y="470" text-anchor="middle" font-size="12" fill="#111827">response</text>
 
   <!-- Gemini API box -->
-  <rect x="905" y="560" width="200" height="150" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+  <rect x="905" y="560" width="200" height="168" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
   <text x="1005" y="590" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">Gemini API</text>
-  <text x="1005" y="610" text-anchor="middle" font-size="13" fill="#374151">(Vertex AI)</text>
-  <rect x="925" y="625" width="160" height="60" rx="6" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.2"/>
-  <text x="1005" y="650" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#111827">Gemini model</text>
-  <text x="1005" y="670" text-anchor="middle" font-size="12.5" fill="#374151">gemini-3.5-flash</text>
+  <text x="1005" y="609" text-anchor="middle" font-size="11.5" fill="#374151">(Gemini Enterprise Agent</text>
+  <text x="1005" y="624" text-anchor="middle" font-size="11.5" fill="#374151">Platform, formerly Vertex AI)</text>
+  <rect x="925" y="640" width="160" height="60" rx="6" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.2"/>
+  <text x="1005" y="665" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#111827">Gemini model</text>
+  <text x="1005" y="685" text-anchor="middle" font-size="12.5" fill="#374151">gemini-3.5-flash</text>
 
   <!-- LlmAgent -> Gemini API: API call -->
-  <path d="M 840 385 H 940 V 555" fill="none" stroke="#1f2937" stroke-width="1.8" marker-end="url(#arrow)"/>
-  <text x="890" y="405" text-anchor="middle" font-size="12.5" fill="#111827" stroke="#eef2f7" stroke-width="5" paint-order="stroke">API call</text>
-  <text x="890" y="420" text-anchor="middle" font-size="12.5" fill="#111827" stroke="#eef2f7" stroke-width="5" paint-order="stroke">(model inference)</text>
+  <path d="M 840 385 H 1005 V 555" fill="none" stroke="#1f2937" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="915" y="405" text-anchor="middle" font-size="12.5" fill="#111827" stroke="#eef2f7" stroke-width="5" paint-order="stroke">API call</text>
+  <text x="915" y="420" text-anchor="middle" font-size="12.5" fill="#111827" stroke="#eef2f7" stroke-width="5" paint-order="stroke">(model inference)</text>
 
   <!-- Gemini API -> LlmAgent: response -->
   <path d="M 1070 555 V 330 H 845" fill="none" stroke="#1f2937" stroke-width="1.8" marker-end="url(#arrow)"/>
