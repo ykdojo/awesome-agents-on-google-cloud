@@ -84,20 +84,29 @@ async def bench(svc, label):
     return result
 
 
+async def warm_db(url):
+    """Untimed: make ADK create its schema so the timed run measures a fresh
+    client against an existing database, the way production would."""
+    svc = DatabaseSessionService(db_url=url)
+    sid = f"warm-{uuid.uuid4().hex[:8]}"
+    await svc.create_session(app_name=APP, user_id="warmup", session_id=sid)
+    await svc.delete_session(app_name=APP, user_id="warmup", session_id=sid)
+
+
 async def main():
     print(f"seconds; 'later' and 'continue' are medians of {N}\n")
     results = [await bench(InMemorySessionService(), "in-memory")]
 
     with tempfile.TemporaryDirectory() as d:
+        sqlite_url = f"sqlite+aiosqlite:///{d}/bench.db"
+        await warm_db(sqlite_url)
         results.append(
-            await bench(
-                DatabaseSessionService(db_url=f"sqlite+aiosqlite:///{d}/bench.db"),
-                "SQL (SQLite via ADK)",
-            )
+            await bench(DatabaseSessionService(db_url=sqlite_url), "SQL (SQLite via ADK)")
         )
 
     sql_url = os.environ.get("SQL_DB_URL")
     if sql_url:
+        await warm_db(sql_url)
         results.append(
             await bench(DatabaseSessionService(db_url=sql_url), "SQL (Cloud SQL via ADK)")
         )
@@ -105,6 +114,15 @@ async def main():
     project = os.environ.get("GOOGLE_CLOUD_PROJECT")
     engine = os.environ.get("AGENT_ENGINE_ID")
     if project and engine:
+        # Same warmup as the SQL backends: an untimed create+delete through a
+        # throwaway client, so the timed run is a fresh client against a warm
+        # backend for every leg.
+        warm_svc = VertexAiSessionService(
+            project=project, location="us-central1", agent_engine_id=engine
+        )
+        sid = f"warm-{uuid.uuid4().hex[:8]}"
+        await warm_svc.create_session(app_name=APP, user_id="warmup", session_id=sid)
+        await warm_svc.delete_session(app_name=APP, user_id="warmup", session_id=sid)
         results.append(
             await bench(
                 VertexAiSessionService(

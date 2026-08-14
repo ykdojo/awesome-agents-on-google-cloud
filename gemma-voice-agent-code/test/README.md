@@ -18,24 +18,32 @@ Backends: `InMemorySessionService`, `DatabaseSessionService` on local SQLite,
 reached through the Cloud SQL Auth Proxy), and `VertexAiSessionService`
 (Agent Engine Sessions). No model is involved anywhere.
 
-## Results (2026-08-14, google-adk 2.7.0, from a Mac outside us-central1)
+## Results (2026-08-14, from a Cloud Run job container in us-central1)
+
+The fair setup: all four backends timed from the same container in the backends'
+own region, schema and engine pre-created by an untimed warmup, then measured
+through a brand-new client. Medians of 5 operations; three job executions.
 
 | Backend | New (first in process) | New (later) | Continuing turn |
 |---|---|---|---|
 | in-memory | ~0 s | ~0 s | ~0 s |
-| SQL (SQLite via ADK) | 0.05 s | 0.004 s | 0.009 s |
-| SQL (Cloud SQL via ADK) | 6.8-8.5 s (one-time table setup) | 0.8 s | 1.6 s |
-| Agent Engine (ADK) | 3.5 s | 2.0 s | 3.4 s |
+| SQL (SQLite via ADK) | 0.016 s | 0.004 s | 0.008 s |
+| SQL (Cloud SQL via ADK) | 0.27 s (first connection) | 0.026 s | 0.056 s |
+| Agent Engine (ADK) | 0.25 s | 0.27 s | 0.31 s |
 
-Cloud SQL's first number is ADK creating its schema on first use, paid once per
-database, not per process. Steady state, Cloud SQL was roughly twice as fast as
-Agent Engine per operation from the same machine.
+Notes:
 
-Agent Engine first-create varied across fresh processes: 3.5 s, 3.5 s, 6.9 s on
-this day (and the same on google-adk 2.6.3: 2.6-4.3 s), while 15 s+ was observed
-on 2026-08-12. Creation is a long-running operation the client polls, so its
-latency includes the polling schedule. All numbers include the network round-trip
-to us-central1.
+- google-adk 2.6.3 (the version the app ran) and 2.7.0 measured the same.
+- The first-ever execution saw 1.4 s Agent Engine creates once; later executions
+  settled at ~0.25 s.
+- Distance amplifies everything: the same operations from a Mac far outside the
+  region took seconds (Agent Engine ~2-3.5 s per op, Cloud SQL 0.8-1.6 s through
+  the Auth Proxy), and 15 s+ first creates were observed on 2026-08-12. Those
+  extremes did not reproduce in the fair in-region setup.
+- Cloud SQL = smallest Postgres 16 tier, reached over Cloud Run's built-in
+  connection (no proxy process). ADK's one-time schema creation on a fresh
+  database (~7 s remote) is excluded by the warmup, as production would never
+  pay it per process.
 
 `bench_sessions.py` is the earlier, finer-grained script: it times each operation
 individually and ends with a raw-REST probe of the same read (~0.16 s), which is
@@ -52,8 +60,10 @@ cd app && GOOGLE_CLOUD_PROJECT=<project> AGENT_ENGINE_ID=<engine id> \
 ```
 
 The engine can be an empty Agent Engine resource - nothing deploys to it. The
-Cloud SQL URL points at a local Cloud SQL Auth Proxy. Both cloud env vars are
-optional: without them the local backends still run.
+Cloud SQL URL points at a local Cloud SQL Auth Proxy (or, in a Cloud Run job,
+the built-in `/cloudsql/...` socket). Both cloud env vars are optional: without
+them the local backends still run. For the fair in-region numbers, run the same
+script as a Cloud Run job in the backends' region.
 
 ## Other files here
 

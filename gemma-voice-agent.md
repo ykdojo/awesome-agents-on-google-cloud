@@ -239,11 +239,15 @@ The first real user found a real bug within hours: when the paper search failed 
 
 ## Limitations and workarounds
 
-The one slow part of this stack turned out to be session storage: through ADK, each Agent Engine session operation took a few seconds, and the first session creation in a process took anywhere from 3.5 to over 15 seconds across runs ([tests](gemma-voice-agent-code/test)). Session I/O, not the GPU, was where the time went. Hitting the same API directly answered in about 0.16 seconds, so the cost was in the client path.
+The one slow part of this stack turned out to be session storage: while building the app, I measured session operations taking seconds each, with the first session creation in a process at 15 seconds or more. Session I/O, not the GPU, was where the time went.
 
-![Chart comparing ADK session backends: Agent Engine and Cloud SQL take seconds per operation, SQLite and in-memory are near zero](assets/gemma-voice-agent/session-backends.png)
+The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from seconds of waiting to feeling instant.
 
-The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from seconds of waiting to feeling instant. Alternatively, you can try swapping the session backend from Agent Engine Sessions to a SQL database. In the same tests, Cloud SQL through ADK was roughly twice as fast per operation, and a local database was effectively instant.
+Benchmarking the backends fairly afterwards softened the story ([tests](gemma-voice-agent-code/test)): from a container in the same region, with a fresh client against an already-initialized backend, every backend measured sub-second per operation, and the 15 seconds never reproduced. Distance was the amplifier: from a laptop far from the region, the same operations took seconds.
+
+![Chart comparing ADK session backends from a same-region container: Agent Engine about 0.3 seconds per operation, Cloud SQL under 0.06 in steady state, SQLite and in-memory near zero](assets/gemma-voice-agent/session-backends.png)
+
+You can also swap the session backend from Agent Engine Sessions to a SQL database. In the same tests, Cloud SQL through ADK was several times faster per operation, and a local database was effectively zero.
 
 ## What's next
 
