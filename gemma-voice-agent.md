@@ -243,11 +243,13 @@ The one slow part of this stack turned out to be session storage: while building
 
 The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from seconds of waiting to feeling instant.
 
-Benchmarking the backends fairly afterwards softened the story ([tests](gemma-voice-agent-code/test)): from a container in the same region, with a fresh client against an already-initialized backend, every backend measured sub-second per operation, and the 15 seconds never reproduced. Distance was the amplifier: from a laptop far from the region, the same operations took seconds.
+Benchmarking the backends fairly afterwards softened the story ([tests](gemma-voice-agent-code/test)): from a container in the same region, with a fresh client against an already-initialized backend, every backend measured sub-second per operation, and the 15 seconds never reproduced. Distance was the amplifier: one turn's session work took 1.5 to 2 seconds from a container on another continent, and more from a laptop.
 
-![Chart comparing ADK session backends from a same-region container: Agent Engine about 0.3 seconds per operation, Cloud SQL under 0.06 in steady state, SQLite and in-memory near zero](assets/gemma-voice-agent/session-backends.png)
+![The same continuing turn by client location: sub-second from the same region, seconds from another continent or a laptop](assets/gemma-voice-agent/session-backends.png)
 
-You can also swap the session backend from Agent Engine Sessions to a SQL database. In the same tests, Cloud SQL through ADK was several times faster per operation, and a local database was effectively zero.
+You can also swap the session backend from Agent Engine Sessions to a SQL database. Colocated, Cloud SQL through ADK was many times faster per operation. Across regions the advantage flips, because one SQL operation is several database round trips.
+
+The general lessons: all of this is tricky. Observability helps, solid infrastructure helps, and colocation helps.
 
 ## What's next
 

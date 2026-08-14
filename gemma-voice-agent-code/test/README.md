@@ -3,7 +3,7 @@
 How much time ADK session storage adds, compared across three backends through
 the same `SessionService` interface.
 
-![Chart: Agent Engine takes seconds per operation; SQLite and in-memory are near zero](session-backends.png)
+![Chart: the same continuing turn by client location - sub-second same-region, seconds cross-region or from a laptop](session-backends.png)
 
 ## What was tested
 
@@ -31,19 +31,31 @@ through a brand-new client. Medians of 5 operations; three job executions.
 | SQL (Cloud SQL via ADK) | 0.27 s (first connection) | 0.026 s | 0.056 s |
 | Agent Engine (ADK) | 0.25 s | 0.27 s | 0.31 s |
 
+The same job deployed to europe-west1, talking to the same us-central1 backends
+(cross-region, still no proxy):
+
+| Backend | New (first in process) | New (later) | Continuing turn |
+|---|---|---|---|
+| SQL (Cloud SQL via ADK) | 7.4 s (first connection) | 0.96 s | 2.0 s |
+| Agent Engine (ADK) | 0.96 s | 0.93 s | 1.5 s |
+
 Notes:
 
 - google-adk 2.6.3 (the version the app ran) and 2.7.0 measured the same.
 - The first-ever execution saw 1.4 s Agent Engine creates once; later executions
   settled at ~0.25 s.
-- Distance amplifies everything: the same operations from a Mac far outside the
-  region took seconds (Agent Engine ~2-3.5 s per op, Cloud SQL 0.8-1.6 s through
-  the Auth Proxy), and 15 s+ first creates were observed on 2026-08-12. Those
-  extremes did not reproduce in the fair in-region setup.
+- Colocation matters most for SQL: a SQL operation is several database
+  round-trips, so Cloud SQL goes from 19x faster than Agent Engine (same
+  region) to slightly slower (cross-region). Its cross-region first connection
+  is also expensive (7.4 s, consistent across runs).
+- From a Mac far outside the region over a VPN, everything took seconds
+  (Agent Engine ~2-3.5 s per op, Cloud SQL 0.8-1.6 s through the Auth Proxy),
+  and 15 s+ first creates were observed on 2026-08-12. Those extremes did not
+  reproduce in any fair setup.
 - Cloud SQL = smallest Postgres 16 tier, reached over Cloud Run's built-in
   connection (no proxy process). ADK's one-time schema creation on a fresh
-  database (~7 s remote) is excluded by the warmup, as production would never
-  pay it per process.
+  database is excluded by the warmup, as production would never pay it per
+  process.
 
 `bench_sessions.py` is the earlier, finer-grained script: it times each operation
 individually and ends with a raw-REST probe of the same read (~0.16 s), which is
