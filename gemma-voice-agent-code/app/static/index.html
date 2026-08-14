@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gemma Paper Agent</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f7f8;
+    --surface: #ffffff;
+    --text: #1a1d21;
+    --text-dim: #6b7280;
+    --border: #e4e6ea;
+    --accent: #23272f;
+    --accent-text: #ffffff;
+    --danger: #c4302b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1013;
+      --surface: #16191d;
+      --text: #e8eaed;
+      --text-dim: #8b929c;
+      --border: #262a30;
+      --accent: #e8eaed;
+      --accent-text: #16191d;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    display: flex; flex-direction: column; height: 100dvh;
+    background: var(--bg); color: var(--text);
+  }
+  header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--accent); color: var(--accent-text);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .mark svg { width: 16px; height: 16px; }
+  header h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  header p { font-size: 12px; color: var(--text-dim); margin-top: 1px; }
+  #chat { flex: 1; overflow-y: auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .msg {
+    max-width: 84%; padding: 10px 14px; border-radius: 14px;
+    line-height: 1.5; white-space: pre-wrap; overflow-wrap: break-word;
+  }
+  .user {
+    align-self: flex-end;
+    background: var(--accent); color: var(--accent-text);
+    border-bottom-right-radius: 5px;
+  }
+  .bot {
+    align-self: flex-start;
+    background: var(--surface); border: 1px solid var(--border);
+    border-bottom-left-radius: 5px;
+  }
+  #wake-banner {
+    display: none; align-items: center; gap: 10px;
+    padding: 10px 16px; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text-dim); line-height: 1.4;
+  }
+  #wake-banner.show { display: flex; }
+  #wake-banner .elapsed { margin-left: auto; font-size: 12px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  input:disabled, button:disabled { opacity: .55; cursor: default; }
+  .dots { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .dots span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim);
+    animation: blink 1.2s infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: .2s; }
+  .dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+  form {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    background: var(--surface); border-top: 1px solid var(--border);
+  }
+  input {
+    flex: 1; min-width: 0; padding: 11px 16px; font-size: 16px;
+    border-radius: 22px; border: 1px solid var(--border);
+    background: var(--bg); color: inherit; outline: none;
+    transition: border-color .15s;
+  }
+  input:focus { border-color: var(--text-dim); }
+  button {
+    width: 42px; height: 42px; border-radius: 50%; border: none;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--accent-text);
+    cursor: pointer; flex-shrink: 0; transition: opacity .15s, background .2s;
+  }
+  button:active { opacity: .75; }
+  button svg { width: 18px; height: 18px; }
+  #mic { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+  #mic.recording { background: var(--danger); border-color: var(--danger); color: #fff; }
+  #mic.recording .icon-mic { display: none; }
+  #mic .icon-stop { display: none; }
+  #mic.recording .icon-stop { display: block; }
+  .voice {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border);
+  }
+  .voice button { width: 32px; height: 32px; }
+  .voice button svg { width: 13px; height: 13px; }
+  .voice canvas { flex: 1; height: 32px; min-width: 0; }
+  .voice .time { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+  #levelmeter { display: none; flex: 1; min-width: 0; height: 42px; }
+  form.recording #levelmeter { display: block; }
+  form.recording #text { display: none; }
+  #send .icon-cancel { display: none; }
+  form.recording #send { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+  form.recording #send .icon-send { display: none; }
+  form.recording #send .icon-cancel { display: block; }
+  #menu-btn {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  #menu-btn svg { width: 16px; height: 16px; }
+  #drawer-backdrop {
+    position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.35);
+    display: none;
+  }
+  #drawer-backdrop.open { display: block; }
+  #drawer {
+    position: fixed; top: 0; bottom: 0; left: 0; z-index: 41; width: min(82vw, 320px);
+    background: var(--surface); border-right: 1px solid var(--border);
+    transform: translateX(-100%); transition: transform .18s ease;
+    display: flex; flex-direction: column;
+  }
+  #drawer.open { transform: translateX(0); }
+  #drawer .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 14px 10px; border-bottom: 1px solid var(--border);
+  }
+  #drawer .drawer-head h2 { font-size: 14px; font-weight: 600; }
+  #new-convo {
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+    border-radius: 8px; padding: 5px 12px; font-size: 12.5px; cursor: pointer;
+  }
+  #new-convo:hover { background: var(--bg); }
+  #convo-list { flex: 1; overflow-y: auto; padding: 8px; }
+  .convo-none {
+    padding: 18px 12px; text-align: center;
+    color: var(--text-dim); font-size: 13px;
+  }
+  .drawer-foot { padding: 10px 14px; border-top: 1px solid var(--border); }
+  #signout {
+    width: 100%; border: 1px solid var(--border); background: transparent;
+    color: var(--text-dim); border-radius: 8px; padding: 7px 12px;
+    font-size: 12.5px; cursor: pointer;
+  }
+  #signout:hover { background: var(--bg); color: var(--text); }
+  .convo {
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 10px; border-radius: 9px; cursor: pointer; font-size: 13.5px;
+  }
+  .convo:hover { background: var(--bg); }
+  .convo.active { background: var(--bg); font-weight: 600; }
+  .convo .title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .convo button {
+    width: 24px; height: 24px; border: none; background: none; color: var(--text-dim);
+    cursor: pointer; border-radius: 6px; flex-shrink: 0; font-size: 12px;
+  }
+  .convo button:hover { color: var(--text); background: var(--border); }
+  .empty-hint {
+    align-self: center; margin-top: 18vh; text-align: center;
+    color: var(--text-dim); font-size: 13.5px; max-width: 22rem; line-height: 1.6;
+  }
+  #wake-card h2 { font-size: 16px; font-weight: 600; color: var(--text); margin-top: 10px; }
+  #wake-card p { margin-top: 6px; }
+  #wake-card .elapsed { margin-top: 12px; font-size: 12px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div id="drawer-backdrop"></div>
+<aside id="drawer">
+  <div class="drawer-head">
+    <h2>Conversations</h2>
+    <button id="new-convo">New</button>
+  </div>
+  <div id="convo-list"></div>
+  <div class="drawer-foot">
+    <button id="signout">Sign out</button>
+  </div>
+</aside>
+<header>
+  <button id="menu-btn" title="Conversations" aria-label="Conversations">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <line x1="4" y1="10" x2="4" y2="14"/><line x1="9" y1="7" x2="9" y2="17"/>
+      <line x1="14" y1="4" x2="14" y2="20"/><line x1="19" y1="9" x2="19" y2="15"/>
+    </svg>
+  </div>
+  <div>
+    <h1>Gemma Paper Agent</h1>
+    <p>Ask about scientific papers, by text or voice</p>
+  </div>
+</header>
+<div id="chat"></div>
+<form id="form">
+  <input id="text" placeholder="Ask a question" autocomplete="off">
+  <canvas id="levelmeter"></canvas>
+  <button type="button" id="mic" title="Record a voice question" aria-label="Record a voice question">
+    <svg class="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+      <line x1="12" y1="19" x2="12" y2="23"/>
+    </svg>
+    <svg class="icon-stop" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="6" y="6" width="12" height="12" rx="2"/>
+    </svg>
+  </button>
+  <button type="submit" id="send" title="Send" aria-label="Send">
+    <svg class="icon-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"/>
+      <polyline points="5 12 12 5 19 12"/>
+    </svg>
+    <svg class="icon-cancel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  </button>
+</form>
+<script>
+// GPU wake banner: the model boxes scale to zero, so on page load we poll
+// /status (which itself kicks their startups). While they boot, a slim banner
+// sits between the header and the chat, and only the composer is disabled -
+// the drawer and conversation history stay fully usable.
+const wake = document.createElement("div");
+wake.id = "wake-banner";
+wake.innerHTML =
+  '<span class="dots"><span></span><span></span><span></span></span>' +
+  '<span>Waking up the GPU. The models sleep when idle; booting can take up to 20 minutes.</span>' +
+  '<span class="elapsed"></span>';
+document.body.insertBefore(wake, document.getElementById("chat"));
+
+(async function gpuGate() {
+  // Composer locked until the first status check resolves, so nothing can be
+  // sent into a cold box; everything else stays interactive.
+  const composer = [document.getElementById("text"), document.getElementById("send"), document.getElementById("mic")];
+  const setWaking = (on) => {
+    composer.forEach((el) => { el.disabled = on; });
+    composer[0].placeholder = on ? "The GPU is waking up..." : "Ask a question";
+    // Empty chat: the wake state takes center stage instead of the example
+    // hint. With history: a slim banner on top, content stays readable.
+    const hasMessages = chat.querySelector(".msg") !== null;
+    const centered = on && !hasMessages;
+    wake.classList.toggle("show", on && hasMessages);
+    let card = chat.querySelector("#wake-card");
+    if (centered) {
+      clearEmptyHint();
+      if (!card) {
+        card = document.createElement("div");
+        card.id = "wake-card";
+        card.className = "empty-hint";
+        card.innerHTML =
+          '<span class="dots"><span></span><span></span><span></span></span>' +
+          '<h2>Waking up the GPU</h2>' +
+          '<p>The models sleep when idle; booting can take up to 20 minutes.</p>' +
+          '<div class="elapsed"></div>';
+        chat.appendChild(card);
+      }
+    } else if (card) {
+      card.remove();
+      if (!on && !hasMessages) showEmptyHint(EMPTY_HINT);
+    }
+  };
+  composer.forEach((el) => { el.disabled = true; });
+  // Elapsed display is anchored to the server's wake-start time (survives page
+  // refreshes) and ticks locally every second between /status polls.
+  let base = 0, baseAt = Date.now();
+  const tick = setInterval(() => {
+    if (!base) return;
+    const card = chat.querySelector("#wake-card");
+    if (!wake.classList.contains("show") && !card) return;
+    const secs = base + Math.round((Date.now() - baseAt) / 1000);
+    const label = Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0");
+    wake.querySelector(".elapsed").textContent = label;
+    if (card) card.querySelector(".elapsed").textContent = label;
+  }, 1000);
+  for (;;) {
+    try {
+      const s = await (await fetch("/status")).json();
+      if (s.ready) break;
+      if (s.waking_seconds) { base = s.waking_seconds; baseAt = Date.now(); }
+      setWaking(true);
+    } catch (e) { /* app itself unreachable; keep trying */ }
+    await new Promise((r) => setTimeout(r, 5000));
+  }
+  clearInterval(tick);
+  setWaking(false);
+})();
+
+const chat = document.getElementById("chat");
+const form = document.getElementById("form");
+const textEl = document.getElementById("text");
+const micBtn = document.getElementById("mic");
+const meter = document.getElementById("levelmeter");
+// Conversations persist server-side now; the page starts on a fresh conversation
+// and the drawer switches between existing ones.
+// crypto.randomUUID only exists on secure contexts (HTTPS/localhost), so fall back
+// to a random string on plain-HTTP origins like LAN-IP testing.
+function newSessionId() {
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+}
+let SESSION_ID = newSessionId();
+
+// Each conversation owns a URL (?c=<id>): refresh lands back in it, and links
+// to a conversation are shareable with yourself across devices.
+function setUrl(id) {
+  history.replaceState(null, "", "?c=" + encodeURIComponent(id));
+}
+
+const EMPTY_HINT =
+  'Ask a question by text or voice. For example: "What are the practical benefits of daily meditation?"';
+
+function showEmptyHint(text) {
+  const hint = document.createElement("div");
+  hint.className = "empty-hint";
+  hint.textContent = text;
+  chat.appendChild(hint);
+}
+function clearEmptyHint() {
+  const hint = chat.querySelector(".empty-hint");
+  if (hint) hint.remove();
+}
+const DOTS = '<span class="dots"><span></span><span></span><span></span></span>';
+
+function add(cls, content) {
+  clearEmptyHint();
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  if (content === null) {
+    div.innerHTML = DOTS;
+  } else {
+    div.textContent = content;
+  }
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+function mdLite(text) {
+  const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return esc.split("\n").map((line) => {
+    let l = line;
+    l = l.replace(/^#{1,4}\s+(.*)$/, "<strong>$1</strong>");
+    l = l.replace(/^[*-]\s+/, "• ");
+    l = l.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    l = l.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    return l;
+  }).join("\n");
+}
+
+async function chatRequest(body, userBubble) {
+  const pending = add("bot", null);
+  let buffer = "";
+  let speech = false;
+  const handle = (ev) => {
+    if (ev.type === "meta") speech = ev.speech_available;
+    else if (ev.type === "transcript") {
+      if (userBubble) userBubble.textContent = ev.text || "Voice message";
+    }
+    else if (ev.type === "status") pending.innerHTML = DOTS + " " + ev.status;
+    else if (ev.type === "delta") { buffer += ev.text; pending.textContent = buffer; }
+    else if (ev.type === "done") {
+      buffer = ev.text || buffer;
+      pending.innerHTML = mdLite(buffer);
+      if (speech && buffer) requestSpeech(pending, buffer);
+    } else if (ev.type === "error") showError(pending, ev);
+    chat.scrollTop = chat.scrollHeight;
+  };
+  try {
+    const resp = await fetch("/chat", { method: "POST", body });
+    const ct = resp.headers.get("content-type") || "";
+    if (resp.status === 401) {
+      // IAP session expired; background fetches don't renew it. Reload to re-auth.
+      pending.textContent = "Your sign-in session expired. Reloading...";
+      setTimeout(() => location.reload(), 1200);
+      return;
+    }
+    if (!resp.ok || !ct.includes("ndjson")) {
+      pending.textContent = "The server had a problem (HTTP " + resp.status + "). Please try again.";
+      return;
+    }
+    const reader = resp.body.getReader();
+    const dec = new TextDecoder();
+    let leftover = "";
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      leftover += dec.decode(value, { stream: true });
+      const lines = leftover.split("\n");
+      leftover = lines.pop();
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        try { handle(JSON.parse(line)); } catch (e) { console.error("bad stream line", line); }
+      }
+    }
+    if (leftover.trim()) {
+      try { handle(JSON.parse(leftover)); } catch (e) { console.error("bad stream tail", leftover); }
+    }
+  } catch (e) {
+    // A dropped connection (phone network blip, instance replaced mid-stream)
+    // surfaces here as a fetch TypeError. Offer a one-tap resend; the body
+    // (JSON or FormData) is still in hand and can be sent again as-is.
+    pending.textContent = "Connection interrupted. ";
+    const btn = document.createElement("button");
+    btn.textContent = "Retry";
+    btn.style.cssText = "display:block;margin-top:8px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:var(--accent);color:var(--accent-text);cursor:pointer;font:inherit;font-size:12.5px";
+    btn.addEventListener("click", () => {
+      pending.remove();
+      chatRequest(body, userBubble);
+    }, { once: true });
+    pending.appendChild(btn);
+  }
+}
+
+// A failed turn shows the reason and, when the server says it's resumable,
+// a Retry that resumes the same invocation (and a quiet give-up that rewinds it).
+function showError(bubble, ev) {
+  bubble.textContent = "Something went wrong: " + (ev.error || "unknown error");
+  if (!ev.retryable || !ev.invocation_id) return;
+  const sid = SESSION_ID, iid = ev.invocation_id;
+  const btn = document.createElement("button");
+  btn.textContent = "Retry";
+  btn.style.cssText = "display:block;margin-top:8px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:var(--accent);color:var(--accent-text);cursor:pointer;font:inherit;font-size:12.5px";
+  btn.addEventListener("click", async () => {
+    bubble.remove();
+    const retryBubble = add("bot", null);
+    try {
+      const resp = await fetch("/retry", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sid, invocation_id: iid }),
+      });
+      await streamInto(resp, retryBubble);
+    } catch (e) {
+      retryBubble.textContent = "Retry failed: " + e;
+      fetch("/rewind", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sid, invocation_id: iid }),
+      });
+    }
+  });
+  bubble.appendChild(btn);
+}
+
+// Minimal NDJSON reader for retry streams (chatRequest owns the main path).
+async function streamInto(resp, pending) {
+  let buffer = ""; let speech = false;
+  const reader = resp.body.getReader();
+  const dec = new TextDecoder();
+  let leftover = "";
+  const handle = (ev) => {
+    if (ev.type === "meta") speech = ev.speech_available;
+    else if (ev.type === "status") pending.innerHTML = DOTS + " " + ev.status;
+    else if (ev.type === "delta") { buffer += ev.text; pending.textContent = buffer; }
+    else if (ev.type === "done") {
+      buffer = ev.text || buffer;
+      pending.innerHTML = mdLite(buffer);
+      if (speech && buffer) requestSpeech(pending, buffer);
+    } else if (ev.type === "error") showError(pending, ev);
+    chat.scrollTop = chat.scrollHeight;
+  };
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    leftover += dec.decode(value, { stream: true });
+    const lines = leftover.split("\n");
+    leftover = lines.pop();
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      try { handle(JSON.parse(line)); } catch (e) { /* skip bad line */ }
+    }
+  }
+  if (leftover.trim()) { try { handle(JSON.parse(leftover)); } catch (e) {} }
+}
+
+const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>';
+const PAUSE_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>';
+
+function fmt(s) {
+  s = Math.max(0, Math.round(s));
+  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+}
+
+async function requestSpeech(bubble, text, scroll = true) {
+  const bar = document.createElement("div");
+  bar.className = "voice";
+  bar.innerHTML =
+    '<svg style="width:15px;height:15px;flex-shrink:0;opacity:.6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>' +
+    '<span class="time">Preparing voice reply</span>' + DOTS;
+  bubble.appendChild(bar);
+  if (scroll) chat.scrollTop = chat.scrollHeight;  // live replies only; replays stay put
+  try {
+    const resp = await fetch("/speak", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    const data = await resp.json();
+    bar.remove();
+    if (data.audio_wav_base64) attachVoiceBar(bubble, data.audio_wav_base64);
+  } catch (e) {
+    bar.remove();
+  }
+}
+
+// Replayed history: the voice bar appears immediately but fetches its audio
+// on first play (a cache hit in the voice bucket when this reply was spoken
+// before; a quick re-synthesis otherwise). User audio is never stored.
+function attachReplayVoice(bubble, text) {
+  const bar = document.createElement("div");
+  bar.className = "voice";
+  bar.innerHTML = '<button type="button" aria-label="Play">' + PLAY_SVG +
+    '</button><span class="time">Voice reply</span>';
+  bar.querySelector("button").addEventListener("click", async (e) => {
+    // Instant feedback: the play triangle becomes loading dots while the
+    // audio is fetched (cache hit or re-synthesis).
+    e.currentTarget.innerHTML = DOTS;
+    bar.querySelector(".time").textContent = "Loading";
+    await requestSpeech(bubble, text, false);
+    bar.remove();
+    const play = bubble.querySelector(".voice button");
+    if (play) play.click();
+  }, { once: true });
+  bubble.appendChild(bar);
+}
+
+async function attachVoiceBar(bubble, b64) {
+  const bar = document.createElement("div");
+  bar.className = "voice";
+  bar.innerHTML = '<button type="button" aria-label="Play">' + PLAY_SVG +
+    '</button><canvas></canvas><span class="time"></span>';
+  bubble.appendChild(bar);
+
+  const btn = bar.querySelector("button");
+  const canvas = bar.querySelector("canvas");
+  const timeEl = bar.querySelector(".time");
+  const audio = new Audio("data:audio/wav;base64," + b64);
+
+  const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const buf = await ctx.decodeAudioData(bytes.buffer);
+  ctx.close();
+  const raw = buf.getChannelData(0);
+  const BARS = 44;
+  const step = Math.floor(raw.length / BARS);
+  const peaks = Array.from({ length: BARS }, (_, i) => {
+    let max = 0;
+    for (let j = i * step; j < (i + 1) * step; j += 24) max = Math.max(max, Math.abs(raw[j]));
+    return max;
+  });
+  const peakMax = Math.max(...peaks, 0.01);
+  timeEl.textContent = fmt(buf.duration);
+
+  function draw(progress) {
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    const g = canvas.getContext("2d");
+    g.scale(dpr, dpr);
+    const css = getComputedStyle(document.documentElement);
+    const played = css.getPropertyValue("--text").trim();
+    const rest = css.getPropertyValue("--border").trim();
+    const bw = w / BARS;
+    for (let i = 0; i < BARS; i++) {
+      const bh = Math.max(3, (peaks[i] / peakMax) * (h - 6));
+      g.fillStyle = i / BARS <= progress ? played : rest;
+      g.beginPath();
+      g.roundRect(i * bw + bw * 0.18, (h - bh) / 2, bw * 0.64, bh, 2);
+      g.fill();
+    }
+  }
+  draw(0);
+
+  audio.addEventListener("timeupdate", () => {
+    draw(audio.currentTime / (audio.duration || buf.duration));
+    timeEl.textContent = fmt((audio.duration || buf.duration) - audio.currentTime);
+  });
+  audio.addEventListener("ended", () => {
+    btn.innerHTML = PLAY_SVG;
+    timeEl.textContent = fmt(buf.duration);
+    draw(0);
+  });
+  audio.addEventListener("play", () => { btn.innerHTML = PAUSE_SVG; });
+  audio.addEventListener("pause", () => { btn.innerHTML = PLAY_SVG; });
+  btn.addEventListener("click", () => { audio.paused ? audio.play() : audio.pause(); });
+
+}
+
+// --- conversation drawer -----------------------------------------------------
+const drawer = document.getElementById("drawer");
+const backdrop = document.getElementById("drawer-backdrop");
+const convoList = document.getElementById("convo-list");
+document.getElementById("menu-btn").addEventListener("click", () => {
+  drawer.classList.add("open"); backdrop.classList.add("open");
+  loadConversations();
+});
+backdrop.addEventListener("click", closeDrawer);
+function closeDrawer() { drawer.classList.remove("open"); backdrop.classList.remove("open"); }
+
+// IAP owns the session; this reserved URL clears its cookie and re-prompts sign-in.
+document.getElementById("signout").addEventListener("click", () => {
+  location.href = "/?gcp-iap-mode=CLEAR_LOGIN_COOKIE";
+});
+
+function prepareSession(id) {
+  // Session creation on the backend is slow (a long-running operation); kick
+  // it off in the background so the first message doesn't wait for it.
+  fetch("/conversations/" + encodeURIComponent(id) + "/prepare", { method: "POST" }).catch(() => {});
+}
+
+document.getElementById("new-convo").addEventListener("click", () => {
+  SESSION_ID = newSessionId();
+  setUrl(SESSION_ID);
+  prepareSession(SESSION_ID);
+  chat.innerHTML = "";
+  showEmptyHint(EMPTY_HINT);
+  closeDrawer();
+  markActive();
+});
+
+// The drawer renders instantly from the last fetched list and refreshes in
+// the background (stale-while-revalidate); dots only on the very first open.
+let convoCache = null;
+
+function renderConversations(list) {
+  convoList.innerHTML = "";
+  if (!list.length) {
+    const none = document.createElement("div");
+    none.className = "convo-none";
+    none.textContent = "No conversations yet.";
+    convoList.appendChild(none);
+    return;
+  }
+  for (const c of list) {
+    const row = document.createElement("div");
+    row.className = "convo" + (c.id === SESSION_ID ? " active" : "");
+    row.dataset.id = c.id;
+    const title = document.createElement("span");
+    title.className = "title";
+    title.textContent = c.title;
+    title.addEventListener("click", () => switchTo(c.id));
+    const ren = document.createElement("button");
+    ren.textContent = "✎"; ren.title = "Rename";
+    ren.addEventListener("click", () => startRename(row, c));
+    const del = document.createElement("button");
+    del.textContent = "✕"; del.title = "Delete";
+    // Soft confirmation: first tap arms (✕ -> ?), second tap deletes.
+    let armed = false, disarm = null;
+    del.addEventListener("click", async () => {
+      if (!armed) {
+        armed = true;
+        del.textContent = "?"; del.title = "Tap again to delete";
+        del.style.color = "var(--danger)";
+        disarm = setTimeout(() => {
+          armed = false;
+          del.textContent = "✕"; del.title = "Delete"; del.style.color = "";
+        }, 3000);
+        return;
+      }
+      clearTimeout(disarm);
+      await fetch("/conversations/" + c.id, { method: "DELETE" });
+      convoCache = (convoCache || []).filter((x) => x.id !== c.id);
+      if (c.id === SESSION_ID) { SESSION_ID = newSessionId(); chat.innerHTML = ""; }
+      loadConversations();
+    });
+    row.append(title, ren, del);
+    convoList.appendChild(row);
+  }
+}
+
+async function loadConversations() {
+  if (convoCache) {
+    renderConversations(convoCache);
+  } else {
+    convoList.innerHTML =
+      '<div class="convo-none"><span class="dots"><span></span><span></span><span></span></span></div>';
+  }
+  try {
+    const resp = await fetch("/conversations");
+    if (resp.status === 401) { location.reload(); return; }
+    const data = await resp.json();
+    convoCache = data.conversations;
+    renderConversations(convoCache);
+  } catch (e) { /* keep whatever is on screen */ }
+}
+
+function startRename(row, c) {
+  const titleEl = row.querySelector(".title");
+  const input = document.createElement("input");
+  input.value = c.title;
+  input.style.cssText = "flex:1;min-width:0;font:inherit;border:1px solid var(--border);border-radius:6px;padding:2px 6px;background:var(--bg);color:var(--text)";
+  // While editing, the edit/delete buttons make way for a single save check.
+  row.querySelectorAll("button").forEach((b) => { b.style.display = "none"; });
+  const check = document.createElement("button");
+  check.textContent = "✓"; check.title = "Save";
+  row.appendChild(check);
+  let saved = false;
+  const save = async () => {
+    if (saved) return;
+    saved = true;
+    const t = input.value.trim();
+    if (t && t !== c.title) {
+      await fetch("/conversations/" + c.id, {
+        method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: t }),
+      });
+    }
+    loadConversations();  // rebuilds the row with its normal buttons
+  };
+  check.addEventListener("click", save);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") input.blur(); });
+  input.addEventListener("blur", save);
+  titleEl.replaceWith(input);
+  input.focus();
+}
+
+async function switchTo(id) {
+  SESSION_ID = id;
+  setUrl(id);
+  chat.innerHTML = "";
+  closeDrawer();
+  markActive();
+  const loading = add("bot", null);  // dots while the history loads
+  try {
+    const resp = await fetch("/conversations/" + id + "/messages");
+    if (resp.status === 401) { location.reload(); return; }
+    const data = await resp.json();
+    if (SESSION_ID !== id) return;  // user already switched again
+    loading.remove();
+    if (!data.messages.length) {
+      showEmptyHint(EMPTY_HINT);
+      return;
+    }
+    for (const m of data.messages) {
+      const div = add(m.role === "user" ? "user" : "bot", m.text);
+      if (m.role !== "user") {
+        div.innerHTML = mdLite(m.text);
+        attachReplayVoice(div, m.text);
+      }
+    }
+  } catch (e) {
+    loading.remove();
+    add("bot", "Could not load this conversation.");
+  }
+}
+
+function markActive() {
+  for (const row of convoList.querySelectorAll(".convo")) {
+    row.classList.toggle("active", row.dataset.id === SESSION_ID);
+  }
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (recorder && recorder.state === "recording") {
+    discardTake = true;
+    recorder.stop();
+    return;
+  }
+  const q = textEl.value.trim();
+  if (!q) return;
+  textEl.value = "";
+  add("user", q);
+  const fd = new FormData();
+  fd.append("text", q);
+  fd.append("session_id", SESSION_ID);
+  chatRequest(fd);
+});
+
+let recorder = null, chunks = [], discardTake = false;
+micBtn.addEventListener("click", async () => {
+  if (recorder && recorder.state === "recording") { recorder.stop(); return; }
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  chunks = [];
+  discardTake = false;
+
+  // The input bar becomes a live level meter while recording
+  form.classList.add("recording");
+  const actx = new (window.AudioContext || window.webkitAudioContext)();
+  const analyser = actx.createAnalyser();
+  analyser.fftSize = 512;
+  actx.createMediaStreamSource(stream).connect(analyser);
+  const sample = new Uint8Array(analyser.fftSize);
+  const levels = [];
+  let raf;
+  function drawLevels() {
+    analyser.getByteTimeDomainData(sample);
+    let sum = 0;
+    for (const v of sample) { const d = (v - 128) / 128; sum += d * d; }
+    levels.push(Math.sqrt(sum / sample.length));
+    const dpr = window.devicePixelRatio || 1;
+    const w = meter.clientWidth, h = meter.clientHeight;
+    const maxBars = Math.floor(w / 5);
+    if (levels.length > maxBars) levels.shift();
+    meter.width = w * dpr; meter.height = h * dpr;
+    const g = meter.getContext("2d");
+    g.scale(dpr, dpr);
+    g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--text").trim();
+    levels.forEach((lv, i) => {
+      const bh = Math.max(2, Math.min(1, lv * 6) * (h - 10));
+      g.beginPath();
+      g.roundRect(i * 5 + 1, (h - bh) / 2, 3, bh, 1.5);
+      g.fill();
+    });
+    raf = requestAnimationFrame(drawLevels);
+  }
+  drawLevels();
+
+  recorder = new MediaRecorder(stream);
+  recorder.ondataavailable = (e) => chunks.push(e.data);
+  recorder.onstop = () => {
+    stream.getTracks().forEach((t) => t.stop());
+    cancelAnimationFrame(raf);
+    actx.close();
+    micBtn.classList.remove("recording");
+    form.classList.remove("recording");
+    if (discardTake) return;
+    const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+
+    // One request: /chat transcribes once, streams the transcript back to fill
+    // the user bubble, then streams the agent's answer into the bot bubble.
+    const bubble = add("user", "");
+    bubble.innerHTML = DOTS + " Transcribing";
+    const fd = new FormData();
+    fd.append("audio", blob, "question.webm");
+    fd.append("session_id", SESSION_ID);
+    chatRequest(fd, bubble);
+  };
+  recorder.start();
+  micBtn.classList.add("recording");
+});
+
+// Boot: land in the conversation the URL names, otherwise start fresh.
+const urlConvo = new URLSearchParams(location.search).get("c");
+if (urlConvo) {
+  switchTo(urlConvo);
+} else {
+  setUrl(SESSION_ID);
+  prepareSession(SESSION_ID);
+  showEmptyHint(EMPTY_HINT);
+}
+</script>
+</body>
+</html>

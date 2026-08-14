@@ -1,0 +1,73 @@
+{
+  "eval_set_id": "paper_search_v1",
+  "name": "Paper search agent core behaviors",
+  "description": "Tool usage and grounded answers for the paper-search voice agent.",
+  "eval_cases": [
+    {
+      "eval_id": "search_direct",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "Find recent papers about REM sleep."}]},
+          "final_response": {"role": "model", "parts": [{"text": "Here are recent papers on REM sleep, including work on REM sleep behavior disorder and dreaming, each cited with authors and year, drawn from a live paper search."}]},
+          "intermediate_data": {"tool_uses": [{"name": "search_papers", "args": {}}]}
+        }
+      ]
+    },
+    {
+      "eval_id": "search_topic_2",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "What papers do you have about sleep deprivation and memory?"}]},
+          "final_response": {"role": "model", "parts": [{"text": "A short list of papers about sleep deprivation and memory, cited as (Author, Year), based on a live search of the knowledge base."}]},
+          "intermediate_data": {"tool_uses": [{"name": "search_papers", "args": {}}]}
+        }
+      ]
+    },
+    {
+      "eval_id": "grounded_summary",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "Find one classic paper about REM sleep and summarize it in one sentence."}]},
+          "final_response": {"role": "model", "parts": [{"text": "A one-sentence summary of a classic REM sleep paper, such as Aserinsky and Kleitman's 1953 discovery of rapid eye movements during sleep, with the citation."}]},
+          "intermediate_data": {"tool_uses": [{"name": "search_papers", "args": {}}]}
+        }
+      ]
+    },
+    {
+      "eval_id": "greeting_no_tool",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "Hi there!"}]},
+          "final_response": {"role": "model", "parts": [{"text": "A friendly greeting inviting the user to ask about scientific papers. No paper search is performed."}]},
+          "intermediate_data": {"tool_uses": []}
+        }
+      ]
+    },
+    {
+      "eval_id": "capability_question_no_tool",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "What can you help me with?"}]},
+          "final_response": {"role": "model", "parts": [{"text": "An explanation that the assistant answers questions about scientific papers using a searchable knowledge base, by text or voice. No search needed."}]},
+          "intermediate_data": {"tool_uses": []}
+        }
+      ]
+    },
+    {
+      "eval_id": "unclear_asks_clarification",
+      "conversation": [
+        {
+          "invocation_id": "inv-1",
+          "user_content": {"role": "user", "parts": [{"text": "Tell me about the thing from before."}]},
+          "final_response": {"role": "model", "parts": [{"text": "A polite request for clarification about which topic or paper the user means, without inventing an answer."}]},
+          "intermediate_data": {"tool_uses": []}
+        }
+      ]
+    }
+  ]
+}

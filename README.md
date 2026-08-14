@@ -11,6 +11,7 @@ Also:
 - **[Skills vs MCP: when to use which](skills-vs-mcp.md)**, a five-situation decision guide for the two ways to extend an agent.
 - **[I built the same agent three ways: Interactions API, ADK, and the Antigravity SDK](same-agent-three-ways.md)**, the same Hacker News opinion agent on the API, the framework, and the harness, all served on Cloud Run.
 - **[Turning Hacker News into a daily podcast with ADK 2, Gemini TTS, and Cloud Run jobs](hn-daily-podcast.md)**, a NotebookLM-style show that fact-checks every claim against its sources.
+- **[From prototype to production: a self-hosted voice agent on a single Cloud Run GPU](gemma-voice-agent.md)**, three open-weights models (Whisper, Gemma 4, Kokoro) sharing one GPU, with ADK for orchestration.
 
 ## Contents
 

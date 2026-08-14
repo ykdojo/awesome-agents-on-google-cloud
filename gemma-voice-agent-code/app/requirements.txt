@@ -1,0 +1,11 @@
+flask>=3.0
+gunicorn>=22.0
+google-genai>=1.16
+google-adk[gcp]>=2.4
+litellm
+requests>=2.31
+opentelemetry-exporter-otlp-proto-http>=1.36
+opentelemetry-resourcedetector-gcp>=1.9.0a0
+opentelemetry-instrumentation-requests
+google-cloud-logging>=3.10
+google-cloud-storage>=2.16
