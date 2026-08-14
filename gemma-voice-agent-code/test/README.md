@@ -14,7 +14,9 @@ the same `SessionService` interface.
 - **Continuing turn**: `get_session` + `append_event` (one turn's session work)
 
 Backends: `InMemorySessionService`, `DatabaseSessionService` on local SQLite,
-`VertexAiSessionService` (Agent Engine Sessions). No model is involved anywhere.
+`DatabaseSessionService` on Cloud SQL (Postgres 16, smallest tier, us-central1,
+reached through the Cloud SQL Auth Proxy), and `VertexAiSessionService`
+(Agent Engine Sessions). No model is involved anywhere.
 
 ## Results (2026-08-14, google-adk 2.7.0, from a Mac outside us-central1)
 
@@ -22,12 +24,18 @@ Backends: `InMemorySessionService`, `DatabaseSessionService` on local SQLite,
 |---|---|---|---|
 | in-memory | ~0 s | ~0 s | ~0 s |
 | SQL (SQLite via ADK) | 0.05 s | 0.004 s | 0.009 s |
+| SQL (Cloud SQL via ADK) | 6.8-8.5 s (one-time table setup) | 0.8 s | 1.6 s |
 | Agent Engine (ADK) | 3.5 s | 2.0 s | 3.4 s |
 
-First-create varied across fresh processes: 3.5 s, 3.5 s, 6.9 s on this day, and
-15 s+ was observed on 2026-08-12 (google-adk 2.6.3). Creation is a long-running
-operation the client polls, so its latency includes the polling schedule.
-Numbers include the network round-trip to the us-central1 endpoint.
+Cloud SQL's first number is ADK creating its schema on first use, paid once per
+database, not per process. Steady state, Cloud SQL was roughly twice as fast as
+Agent Engine per operation from the same machine.
+
+Agent Engine first-create varied across fresh processes: 3.5 s, 3.5 s, 6.9 s on
+this day (and the same on google-adk 2.6.3: 2.6-4.3 s), while 15 s+ was observed
+on 2026-08-12. Creation is a long-running operation the client polls, so its
+latency includes the polling schedule. All numbers include the network round-trip
+to us-central1.
 
 `bench_sessions.py` is the earlier, finer-grained script: it times each operation
 individually and ends with a raw-REST probe of the same read (~0.16 s), which is
@@ -37,12 +45,15 @@ what showed the overhead lives in the client path rather than the API.
 
 ```sh
 cd app && GOOGLE_CLOUD_PROJECT=<project> AGENT_ENGINE_ID=<engine id> \
-  uv run --with-requirements requirements.txt --with sqlalchemy --with aiosqlite \
+  SQL_DB_URL=postgresql+asyncpg://postgres:<password>@127.0.0.1:5433/postgres \
+  uv run --with-requirements requirements.txt \
+  --with sqlalchemy --with aiosqlite --with asyncpg \
   python ../test/bench_session_backends.py
 ```
 
-The engine can be an empty Agent Engine resource - nothing deploys to it. Without
-the two env vars, the Agent Engine leg is skipped and the local backends still run.
+The engine can be an empty Agent Engine resource - nothing deploys to it. The
+Cloud SQL URL points at a local Cloud SQL Auth Proxy. Both cloud env vars are
+optional: without them the local backends still run.
 
 ## Other files here
 

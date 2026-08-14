@@ -2,7 +2,8 @@
 
 Backends (all through the same ADK session-service interface):
   - InMemorySessionService                  (process memory)
-  - DatabaseSessionService on local SQLite  (SQL)
+  - DatabaseSessionService on local SQLite  (SQL, no network)
+  - DatabaseSessionService on Cloud SQL     (SQL service; set SQL_DB_URL)
   - VertexAiSessionService                  (Agent Engine Sessions)
 
 Scenarios:
@@ -93,6 +94,12 @@ async def main():
                 DatabaseSessionService(db_url=f"sqlite+aiosqlite:///{d}/bench.db"),
                 "SQL (SQLite via ADK)",
             )
+        )
+
+    sql_url = os.environ.get("SQL_DB_URL")
+    if sql_url:
+        results.append(
+            await bench(DatabaseSessionService(db_url=sql_url), "SQL (Cloud SQL via ADK)")
         )
 
     project = os.environ.get("GOOGLE_CLOUD_PROJECT")
