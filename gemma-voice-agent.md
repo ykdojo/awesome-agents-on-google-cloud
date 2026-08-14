@@ -241,7 +241,7 @@ The first real user found a real bug within hours: when the paper search failed 
 
 The one slow part of this stack turned out to be session storage: creating a session took 15 seconds or more the first time in a process ([test script](gemma-voice-agent-code/test/bench_sessions.py)). Session I/O, not the GPU, was where the time went. Hitting the same API directly answered in about 0.16 seconds, so the cost was in the client path.
 
-The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from ten seconds of waiting to feeling instant. Alternatively, you can try swapping the session backend from Agent Engine Sessions to a SQL database.
+The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from up to 15 seconds of waiting to feeling instant. Alternatively, you can try swapping the session backend from Agent Engine Sessions to a SQL database.
 
 ## What's next
 
