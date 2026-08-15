@@ -197,7 +197,7 @@ At that point I had a pretty solid working prototype, but I wanted to take a few
 
 #### Error recovery
 
-I enabled ADK's resumability, so a turn that dies midway resumes from its last persisted event, whether that's a tool call, a tool result, or the message itself, instead of the user retyping it:
+I enabled ADK's resumability, so a turn that dies midway resumes from its last persisted event, whether that's a tool call, a tool result, or the user's message, instead of the user retyping it:
 
 ```python
 _app = App(
