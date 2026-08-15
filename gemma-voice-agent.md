@@ -189,7 +189,7 @@ _runner = Runner(app=_app, session_service=_sessions)
 
 That's the entire storage change: same agent, same runner, but every message and tool result now lands in a managed store. It survives restarts and is reachable from any instance, instead of living in process memory ([full file](gemma-voice-agent-code/app/model.py)).
 
-On top of it I built the usual conversation UI: a drawer that lists conversations, plus switch, rename, and delete.
+On top of it I built a standard conversation UI: a drawer that lists conversations, plus switch, rename, and delete.
 
 ### Step 7: prototype to production
 
