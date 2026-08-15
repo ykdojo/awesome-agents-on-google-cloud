@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="240" viewBox="0 0 960 240" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1A1040"/><stop offset="0.35" stop-color="#0F2847"/><stop offset="0.6" stop-color="#0A3A5E"/><stop offset="1" stop-color="#1A4A3A"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9FB3CC"/>
+    </marker>
+  </defs>
+  <rect width="960" height="240" fill="#0F2040"/><rect width="960" height="240" fill="url(#bgGrad)"/>
+
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="40" y="53" width="150" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="115" y="81">Voice note</text>
+
+    <rect x="40" y="160" width="150" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="115" y="188">Text message</text>
+
+    <rect x="250" y="45" width="230" height="62" rx="8" fill="#152A4A" stroke="#7CA7F5"/>
+    <text x="365" y="72">Whisper: transcribe</text>
+    <text x="365" y="92" font-size="12" fill="#9FB3CC">runs on a GPU</text>
+
+    <rect x="560" y="95" width="150" height="52" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="635" y="126">ADK agent</text>
+
+    <rect x="770" y="85" width="150" height="62" rx="8" fill="#1B2547" stroke="#8B9AE8"/>
+    <text x="845" y="112">Gemini</text>
+    <text x="845" y="132" font-size="12" fill="#9FB3CC">the brain, for now</text>
+  </g>
+
+  <line x1="190" y1="76" x2="248" y2="76" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="76" x2="558" y2="108" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="190" y1="183" x2="558" y2="134" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="710" y1="121" x2="768" y2="118" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

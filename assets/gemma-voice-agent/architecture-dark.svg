@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="660" viewBox="0 0 960 660" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1A1040"/><stop offset="0.35" stop-color="#0F2847"/><stop offset="0.6" stop-color="#0A3A5E"/><stop offset="1" stop-color="#1A4A3A"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9FB3CC"/>
+    </marker>
+  </defs>
+  <rect width="960" height="660" fill="#0F2040"/><rect width="960" height="660" fill="url(#bgGrad)"/>
+
+  <!-- User and IAP -->
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="30" y="30" width="180" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="120" y="58">User</text>
+    <rect x="270" y="30" width="200" height="46" rx="8" fill="#1B2547" stroke="#8B9AE8"/>
+    <text x="370" y="58">Identity-Aware Proxy</text>
+  </g>
+  <line x1="210" y1="53" x2="268" y2="53" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- CPU app container -->
+  <rect x="20" y="110" width="450" height="240" rx="12" fill="#12233F" stroke="#3B82C4" stroke-width="1.5"/>
+  <text x="36" y="138" font-size="12" font-weight="700" letter-spacing="1.5" fill="#7CC6F5">CLOUD RUN: APP (CPU)</text>
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="45" y="160" width="400" height="44" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="245" y="187">Flask + ADK agent loop</text>
+    <rect x="45" y="220" width="190" height="44" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="140" y="247">Conversation drawer</text>
+    <rect x="255" y="220" width="190" height="44" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="350" y="247">Wake gate + retry</text>
+    <rect x="45" y="280" width="400" height="44" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="245" y="307">LiteLLM + speech client</text>
+  </g>
+  <line x1="370" y1="76" x2="370" y2="108" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- GPU box container -->
+  <rect x="500" y="110" width="440" height="360" rx="12" fill="#0F2A24" stroke="#2E8B6B" stroke-width="1.5"/>
+  <text x="516" y="138" font-size="12" font-weight="700" letter-spacing="1.5" fill="#6EE7B7">CLOUD RUN: GPU BOX</text>
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="525" y="152" width="390" height="40" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="720" y="177">FastAPI router</text>
+  </g>
+  <!-- The one physical GPU, holding all three models -->
+  <rect x="518" y="204" width="404" height="204" rx="10" fill="#0D2B21" stroke="#34D399" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="534" y="226" font-size="12" font-weight="700" letter-spacing="1.5" fill="#34D399">ONE GPU - RTX 6000 PRO, 96 GB</text>
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="536" y="238" width="368" height="46" rx="8" fill="#152A4A" stroke="#7CA7F5"/>
+    <text x="720" y="265">Whisper - speech-to-text</text>
+    <rect x="536" y="292" width="368" height="46" rx="8" fill="#3A1D14" stroke="#F5A46B"/>
+    <text x="720" y="319">Gemma 4 31B - the brain</text>
+    <rect x="536" y="346" width="368" height="46" rx="8" fill="#241D40" stroke="#A795F0"/>
+    <text x="720" y="373">Kokoro - text-to-speech</text>
+  </g>
+  <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="525" y="418" width="390" height="40" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="720" y="443">Weights streamed at boot, scale to zero</text>
+  </g>
+  <line x1="470" y1="230" x2="498" y2="230" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Managed services band -->
+  <rect x="20" y="510" width="920" height="120" rx="12" fill="#182132" stroke="#7D8CA6" stroke-width="1.5"/>
+    <g font-size="14" fill="#ECF1F8" text-anchor="middle">
+    <rect x="45" y="558" width="270" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="180" y="586">Agent Engine Sessions</text>
+    <rect x="345" y="558" width="270" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="480" y="586">Cloud Trace</text>
+    <rect x="645" y="558" width="270" height="46" rx="8" fill="#1B2A47" stroke="#5C6E8C"/>
+    <text x="780" y="586">OpenAlex API</text>
+  </g>
+  <line x1="180" y1="352" x2="180" y2="554" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="420" y1="352" x2="465" y2="554" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="720" y1="472" x2="770" y2="554" stroke="#9FB3CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="32" y="526" width="204" height="16" rx="3" fill="#182132"/>
+  <text x="36" y="538" font-size="12" font-weight="700" letter-spacing="1.5" fill="#B8C4D9">SUPPORTING SERVICES</text>
+</svg>
