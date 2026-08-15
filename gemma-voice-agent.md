@@ -43,7 +43,7 @@ I decided to separate this into two services instead of shoving everything into 
 
 ### Step 1: verify a GPU container runs on Cloud Run
 
-When I first tried to build this a few weeks earlier, I had trouble getting GPU quota in my Google Cloud account. So before building anything real, I wanted to clear that basic hurdle: get any Cloud Run container running with a GPU. I wrote [`hello-gpu/`](gemma-voice-agent-code/hello-gpu), an HTTP server whose only job is to run `nvidia-smi` (NVIDIA's command-line tool that reports the GPUs the driver can see) and return its output. I deployed it with one command:
+When I first tried to build this a few weeks earlier, I had trouble getting GPU quota in my Google Cloud account. So before building anything real, I wanted to clear that basic hurdle: get any Cloud Run container running with a GPU. I wrote [`hello-gpu/`](gemma-voice-agent-code/hello-gpu), an HTTP server whose only job is to run `nvidia-smi` and return its output. `nvidia-smi` is NVIDIA's command-line tool that reports the GPUs the driver can see. I deployed it with one command:
 
 ```sh
 gcloud run deploy hello-gpu \
