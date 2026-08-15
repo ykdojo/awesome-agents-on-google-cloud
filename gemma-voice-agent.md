@@ -207,7 +207,7 @@ _app = App(
 )
 ```
 
-That flag does the heavy lifting. To make it work, the app has a retry endpoint and a Retry button on the failed turn ([full file](gemma-voice-agent-code/app/model.py)).
+That flag does the heavy lifting ([full file](gemma-voice-agent-code/app/model.py)). To make it work, the app has a retry endpoint and a Retry button on the failed turn.
 
 #### Observability
 
