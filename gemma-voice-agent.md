@@ -253,7 +253,7 @@ You can also try different backend options, like Cloud SQL and Agent Engine, to 
 
 #### Open it to real users
 
-The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Now failed attempts log their exact exceptions, and the tool marks the degradation on its own trace span, so the failure shows up in the trace whenever the tool call fails.
+The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Now failed attempts log their exact exceptions. In addition, the tool marks the degradation on its own trace span, so the failure shows up in the trace whenever the tool call fails.
 
 ## What's next
 
