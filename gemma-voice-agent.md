@@ -239,7 +239,7 @@ I wrote six eval cases ([`eval/`](gemma-voice-agent-code/eval)) in three groups:
 
 #### A temporary performance issue and its lessons
 
-The one slow part of this stack turned out to be session storage, the Agent Engine store that keeps each conversation's history. While building the app, I measured the basic session operations. Creating a session, reading it back, and appending new messages each took seconds, and the first session created after the app started, such as on a fresh Cloud Run instance, took 10+ seconds. Session I/O, not the GPU, was where the time went.
+The one slow part of this stack turned out to be session storage, the Agent Engine store that keeps each conversation's history. While building the app, I measured the basic session operations. Creating a session, reading it back, and appending new messages each took seconds, and the first session created after the app started took 10+ seconds. Session I/O, not the GPU, was where the time went.
 
 The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from seconds of waiting to feeling instant.
 
