@@ -87,11 +87,11 @@ if audio:
     message = f"{text}\n{transcript}" if text else transcript
 ```
 
-The pipeline: audio goes to Whisper, the transcript comes back as text, and that text becomes the message the agent receives.
+The pipeline: audio goes to Whisper, the transcript comes back as text, and that text becomes the message the agent receives. ([Full file.](gemma-voice-agent-code/app/server.py))
 
-Whisper itself runs on the GPU: vLLM can serve Whisper large-v3-turbo. The app just posts the audio to it and gets JSON back.
+Whisper itself runs on the GPU: vLLM can serve Whisper large-v3-turbo. The app just posts the audio to it and gets JSON back. ([Client code.](gemma-voice-agent-code/app/speech_client.py))
 
-The transcript is also shown in the UI: it fills your chat bubble, so you see what the system heard. ([Full file.](gemma-voice-agent-code/app/server.py))
+The transcript is also shown in the UI: it fills your chat bubble, so you see what the system heard.
 
 ![Voice notes go through Whisper on a GPU, text goes straight in, and both reach the ADK agent backed by Gemini for now](assets/gemma-voice-agent/voice-flow-dark.svg)
 
