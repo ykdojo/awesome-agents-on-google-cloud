@@ -239,7 +239,7 @@ I wrote six eval cases ([`eval/`](gemma-voice-agent-code/eval)) in three groups:
 
 #### Open it to real users
 
-The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Failed attempts log their exact exceptions, and the tool marks the degradation on its own trace span, so traces show red even when the user saw a polite reply.
+The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Now failed attempts log their exact exceptions, and the tool marks the degradation on its own trace span, so traces show red even when the user saw a polite reply.
 
 ## A temporary performance issue and its lessons
 
