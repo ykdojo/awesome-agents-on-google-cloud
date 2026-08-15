@@ -115,7 +115,7 @@ for _, _, audio in pipeline(text, voice=voice):
     chunks.append(audio.numpy() if hasattr(audio, "numpy") else np.asarray(audio))
 ```
 
-The pipeline: answer text goes in, Kokoro (an 82-million-parameter open-weights text-to-speech model, running on the same GPU) turns it into audio chunk by chunk, and the chunks are joined and returned as a WAV file. The helper at the top loads the model once, on first use, and every request after that reuses the same loaded pipeline.
+The pipeline: answer text goes in, Kokoro turns it into audio chunk by chunk, and the chunks are joined and returned as a WAV file. The helper at the top loads the model once, on first use, and every request after that reuses the same loaded pipeline.
 
 In the UI, each reply gets a playback bar, and the voice is generated on demand when the answer arrives ([full file](gemma-voice-agent-code/gpu-speech/server.py)).
 
