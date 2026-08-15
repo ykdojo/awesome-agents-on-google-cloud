@@ -249,7 +249,7 @@ Afterwards, I tried my best to reproduce the issue with a set of controlled benc
 
 Through this set of tests, though, I realized the importance of colocation: from a container in the same region as the backends, every operation measured sub-second, while the same calls took seconds from another continent or from my laptop. Each session operation crosses the network, so the distance shows up in every turn.
 
-You can also try different backend options, like Cloud SQL and Agent Engine, to see what works best for you, even though there shouldn't be a dramatic difference based on these tests.
+You can also try different backend options, like Cloud SQL and Agent Engine, to see what works best for you. Depending on your particular setup, Cloud SQL can be faster: colocated, it measured 0.056 seconds per continuing turn versus 0.31 for Agent Engine. That said, there shouldn't be a dramatic difference based on these tests.
 
 ## What's next
 
