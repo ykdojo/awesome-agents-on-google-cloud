@@ -74,7 +74,7 @@ An agent in ADK is exactly those four things: a name, a model, a system prompt t
 
 The tools are plain Python functions. ADK reads their signatures and docstrings, presents them to the model as callable tools, runs whichever ones the model asks for, and feeds the results back.
 
-The model at this point was a hosted Gemini model: great for quick testing while the rest of the system took shape. It gets swapped for self-hosted Gemma in step 5. ([Full file.](gemma-voice-agent-code/app/model.py))
+The model at this point was a hosted Gemini model: good for quick testing while the rest of the system took shape. It gets swapped for self-hosted Gemma in step 5. ([Full file.](gemma-voice-agent-code/app/model.py))
 
 ### Step 3: build the transcription path
 
