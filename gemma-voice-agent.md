@@ -176,7 +176,7 @@ def _user_id() -> str:
 
 The function checks the token's signature and extracts a stable user ID. That ID carries no email or other personal information, and it's the only identity data the app stores: conversations are keyed on it, so each person only ever sees their own ([full file](gemma-voice-agent-code/app/server.py)).
 
-For storage, ADK's session service is swappable in a line. I pointed mine at Agent Engine Sessions, used purely as a session store:
+For storage, ADK's session service is swappable in a line. I pointed mine at [Agent Engine Sessions](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/sessions), used purely as a session store:
 
 ```python
 _sessions = VertexAiSessionService(
