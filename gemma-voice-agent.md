@@ -4,7 +4,7 @@ What is it actually like to build an AI agent with open-weights models?
 
 In this article I'll show you how I built a voice agent that answers questions about scientific papers. You ask a question by text or voice, it searches and fetches papers, and the answer comes back as text and voice. Three open-weights models run the whole thing on a single GPU on Google Cloud: **Whisper** for speech-to-text, **Gemma 4 31B** as the brain, and **Kokoro** for text-to-speech.
 
-My goal with this post is to give you an end-to-end intuition of what it actually takes to build a system like this. Note that you can swap in any data source you want, public or private, for the paper search.
+My goal with this post is to give you an end-to-end intuition of what it actually takes to build a system like this. Note that you can swap in any data source you want, public or private, instead of the paper search.
 
 ## Why open weights
 
