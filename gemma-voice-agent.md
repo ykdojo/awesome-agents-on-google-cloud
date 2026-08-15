@@ -152,9 +152,9 @@ This tells the agent three things:
 
 - Where the brain lives: the GPU box's URL, which vLLM exposes as an OpenAI-compatible endpoint.
 - How to prove it's allowed in: a Google-signed identity token instead of an API key, because the box rejects anonymous callers.
-- To run Gemma with thinking mode on.
+- To run Gemma with thinking mode on ([full file](gemma-voice-agent-code/app/model.py)).
 
-Tool calling works because vLLM ships a parser for Gemma's tool-call format (`--tool-call-parser gemma4`) ([full file](gemma-voice-agent-code/app/model.py)).
+Tool calling works because vLLM ships a parser for Gemma's tool-call format (`--tool-call-parser gemma4`) ([launch script](gemma-voice-agent-code/gpu-speech/start.sh)).
 
 ### Step 6: add sign-in and make conversations persistent
 
