@@ -213,7 +213,7 @@ That flag does the heavy lifting ([full file](gemma-voice-agent-code/app/model.p
 
 ![A single turn in Cloud Trace: invocation, agent, model call, and the token counts](assets/gemma-voice-agent/trace-waterfall.jpg)
 
-ADK instruments everything with OpenTelemetry natively. Every turn produces a trace like the one above. Each bar is a span, one timed step of the turn: a model call, a tool call, and the agent run that contains them, with token counts attached. All I had to add was export wiring - a few packages and a few lines that install a Cloud Trace exporter using ADK's own helpers:
+ADK instruments the agent loop with OpenTelemetry natively. Every turn produces a trace like the one above. Each bar is a span, one timed step of the turn: a model call, a tool call, and the agent run that contains them, with token counts attached. All I had to add was export wiring - a few packages and a few lines that install a Cloud Trace exporter using ADK's own helpers:
 
 ```python
 import google.auth
