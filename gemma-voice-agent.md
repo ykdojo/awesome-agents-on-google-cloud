@@ -123,7 +123,7 @@ In the UI, each reply gets a playback bar, and the voice is generated on demand 
 
 ### Step 5: self-host the models
 
-I put all three models in the GPU box ([`gpu-speech/`](gemma-voice-agent-code/gpu-speech)) and swapped the interim Gemini brain for self-hosted Gemma. This is where ADK's model abstraction pays off: the swap is one field. The `model=MODEL_ID` from step 2 became:
+I put all three models in the GPU box ([`gpu-speech/`](gemma-voice-agent-code/gpu-speech)) and swapped the interim Gemini brain for self-hosted Gemma. ADK allows you to make the swap in a few lines of code. The `model=MODEL_ID` from step 2 became:
 
 ```python
 LiteLlm(
