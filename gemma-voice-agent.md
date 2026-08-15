@@ -59,7 +59,7 @@ That's a full GPU service from a source folder: Cloud Run builds the container, 
 
 ### Step 2: build the chat app and the agent loop
 
-Then I built the app ([`app/`](gemma-voice-agent-code/app)): a chat page backed by an ADK agent with two tools I wrote, search papers and fetch one paper ([`app/tools.py`](gemma-voice-agent-code/app/tools.py)). I wrote them using the OpenAlex API, a free public index of academic papers. The whole agent is this:
+Then I built the app ([`app/`](gemma-voice-agent-code/app)): a chat page backed by an ADK agent with two tools I wrote, *search papers* and *fetch one paper* ([`app/tools.py`](gemma-voice-agent-code/app/tools.py)). I wrote them using the OpenAlex API, a free public index of academic papers. The whole agent is this:
 
 ```python
 _agent = Agent(
