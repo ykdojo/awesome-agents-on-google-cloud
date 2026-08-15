@@ -237,11 +237,7 @@ The helpers come from ADK's telemetry modules, as the imports show. `google.auth
 
 I wrote six eval cases ([`eval/`](gemma-voice-agent-code/eval)) in three groups: questions that must call the search tool, questions that must not (a greeting shouldn't trigger a search), and an ambiguous one that should ask for clarification. Each case's reference is a rubric scored by an LLM judge, because judges survive rephrasing and exact-match metrics don't. The judge is test infrastructure, not part of the product.
 
-#### Open it to real users
-
-The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Now failed attempts log their exact exceptions, and the tool marks the degradation on its own trace span, so the failure shows up in the trace whenever the tool call fails.
-
-## A temporary performance issue and its lessons
+#### A temporary performance issue and its lessons
 
 The one slow part of this stack turned out to be session storage: while building the app, I measured session operations taking seconds each, with the first session creation in a process at 15 seconds or more. Session I/O, not the GPU, was where the time went.
 
@@ -254,6 +250,10 @@ Afterwards, I tried my best to reproduce the issue with a set of controlled benc
 Through this set of tests, though, I realized the importance of colocation: from a container in the same region as the backends, every operation measured sub-second, while the same calls took seconds from another continent or from my laptop. Each session operation crosses the network, so the distance shows up in every turn.
 
 You can also try different backend options, like Cloud SQL and Agent Engine, to see what works best for you. Depending on your particular setup, Cloud SQL can be faster: colocated, it measured 0.056 seconds per continuing turn versus 0.31 for Agent Engine. That said, there shouldn't be a dramatic difference based on these tests.
+
+#### Open it to real users
+
+The first real user found a real bug within hours: when the paper search failed upstream, the tool caught its own exceptions, apologized politely, and logged nothing. The failure was invisible everywhere except the user's screen. The fix was twofold. The likely cause was rate limiting, so I changed how the app calls the OpenAlex API: requests now carry a contact email, which OpenAlex rewards with a much higher rate limit. And whether or not that was the right diagnosis, I made sure similar failures can't hide again. Now failed attempts log their exact exceptions, and the tool marks the degradation on its own trace span, so the failure shows up in the trace whenever the tool call fails.
 
 ## What's next
 
