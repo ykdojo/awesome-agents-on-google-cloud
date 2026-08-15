@@ -245,7 +245,7 @@ The mitigation: when you open a new conversation, the app creates its session in
 
 Benchmarking the backends fairly afterwards softened the story ([tests](gemma-voice-agent-code/test)): from a container in the same region, with a fresh client against an already-initialized backend, every backend measured sub-second per operation, and the 15 seconds never reproduced. Distance was the amplifier: one turn's session work took 1.5 to 2 seconds from a container on another continent, and more from a laptop.
 
-![The same continuing turn by client location: sub-second from the same region, seconds from another continent or a laptop](assets/gemma-voice-agent/session-backends.png)
+![New-conversation and continuing-turn session cost by client location: sub-second from the same region, seconds from another continent or a laptop](assets/gemma-voice-agent/session-backends.png)
 
 You can also swap the session backend from Agent Engine Sessions to a SQL database. Colocated, Cloud SQL through ADK was many times faster per operation. Across regions the advantage flips, because one SQL operation is several database round trips.
 

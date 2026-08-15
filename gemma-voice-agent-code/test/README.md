@@ -3,7 +3,7 @@
 How much time ADK session storage adds, compared across three backends through
 the same `SessionService` interface.
 
-![Chart: the same continuing turn by client location - sub-second same-region, seconds cross-region or from a laptop](session-backends.png)
+![Chart: new-conversation and continuing-turn session cost by client location - sub-second same-region, seconds elsewhere](session-backends.png)
 
 ## What was tested
 
