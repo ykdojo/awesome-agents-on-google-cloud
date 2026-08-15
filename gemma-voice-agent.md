@@ -115,9 +115,9 @@ for _, _, audio in pipeline(text, voice=voice):
     chunks.append(audio.numpy() if hasattr(audio, "numpy") else np.asarray(audio))
 ```
 
-The pipeline: answer text goes in, Kokoro turns it into audio chunk by chunk, and the chunks are joined and returned as a WAV file. The helper at the top loads the model once, on first use, and every request after that reuses the same loaded pipeline.
+The pipeline: answer text goes in, Kokoro turns it into audio chunk by chunk, and the chunks are joined and returned as a WAV file. The helper at the top loads the model once, on first use, and every request after that reuses the same loaded pipeline ([full file](gemma-voice-agent-code/gpu-speech/server.py)).
 
-In the UI, each reply gets a playback bar, and the voice is generated on demand when the answer arrives ([full file](gemma-voice-agent-code/gpu-speech/server.py)).
+In the UI, each reply gets a playback bar, and the voice is generated on demand when the answer arrives.
 
 ![The same flow as step 3, now with the reply path: the answer text goes from the agent through Kokoro on the same GPU and comes back as a voice reply with a playback bar](assets/gemma-voice-agent/tts-flow-dark.svg)
 
