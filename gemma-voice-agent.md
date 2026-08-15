@@ -243,13 +243,13 @@ The one slow part of this stack turned out to be session storage: while building
 
 The mitigation: when you open a new conversation, the app creates its session in the background while you type your first message. Starting a conversation went from seconds of waiting to feeling instant.
 
-Benchmarking the backends fairly afterwards softened the story ([tests](gemma-voice-agent-code/test)): from a container in the same region, with a fresh client against an already-initialized backend, every backend measured sub-second per operation, and the 15 seconds never reproduced. Distance was the amplifier: one turn's session work took 1.5 to 2 seconds from a container on another continent, and more from a laptop.
+Afterwards, I tried my best to reproduce the issue with a set of controlled benchmarks ([tests](gemma-voice-agent-code/test)). This time, the latency was at most a few seconds, depending on the locations of the services. So it seems it was a temporary issue affecting the backend service at that point in time.
 
 ![New-conversation and continuing-turn session cost by client location: sub-second from the same region, seconds from another continent or a laptop](assets/gemma-voice-agent/session-backends.png)
 
-You can also swap the session backend from Agent Engine Sessions to a SQL database. Colocated, Cloud SQL through ADK was many times faster per operation. Across regions the advantage flips, because one SQL operation is several database round trips.
+Through this set of tests, though, I realized the importance of colocation: from a container in the same region as the backends, every operation measured sub-second, while the same calls took seconds from another continent or from my laptop. Each session operation crosses the network, so the distance shows up in every turn.
 
-The general lessons: all of this is tricky. Observability helps, solid infrastructure helps, and colocation helps.
+You can also try different backend options, like Cloud SQL and Agent Engine, to see what works best for you, even though there shouldn't be a dramatic difference based on these tests.
 
 ## What's next
 
