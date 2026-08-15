@@ -55,7 +55,7 @@ gcloud run deploy hello-gpu \
   --allow-unauthenticated
 ```
 
-That's a full GPU service from a source folder: Cloud Run builds the container, attaches one L4 GPU, and gives you a URL. Curling it returned the `nvidia-smi` table with the L4 in it, which confirms the driver sees a real GPU.
+That's a full GPU service from a source folder: Cloud Run builds the container, attaches one L4 GPU, and gives you a URL. Curling it returned the `nvidia-smi` table with the L4 in it, which confirms the driver sees a real GPU. The L4 is the smaller of the two GPU types Cloud Run offers, with 24 GB of memory. The real stack later runs on the bigger one, the 96 GB RTX 6000 Pro.
 
 ### Step 2: build the chat app and the agent loop
 
