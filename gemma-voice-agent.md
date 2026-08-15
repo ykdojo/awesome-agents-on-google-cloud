@@ -87,9 +87,9 @@ if audio:
     message = f"{text}\n{transcript}" if text else transcript
 ```
 
-The pipeline: audio goes to Whisper, the transcript comes back as text, and that text becomes the message the agent receives. ([Full file.](gemma-voice-agent-code/app/server.py))
+The pipeline: audio goes to Whisper, the transcript comes back as text, and that text becomes the message the agent receives ([full file](gemma-voice-agent-code/app/server.py)).
 
-Whisper itself runs on the GPU: vLLM can serve Whisper large-v3-turbo. The app just posts the audio to it and gets JSON back. ([Client code.](gemma-voice-agent-code/app/speech_client.py))
+Whisper itself runs on the GPU: vLLM can serve Whisper large-v3-turbo. The app just posts the audio to it and gets JSON back ([client code](gemma-voice-agent-code/app/speech_client.py)).
 
 The transcript is also shown in the UI: it fills your chat bubble, so you see what the system heard.
 
@@ -117,7 +117,7 @@ for _, _, audio in pipeline(text, voice=voice):
 
 The pipeline: answer text goes in, Kokoro (an 82-million-parameter open-weights text-to-speech model, running on the same GPU) turns it into audio chunk by chunk, and the chunks are joined and returned as a WAV file. The helper at the top loads the model once, on first use, and every request after that reuses the same loaded pipeline.
 
-In the UI, each reply gets a playback bar, and the voice is generated on demand when the answer arrives. ([Full file.](gemma-voice-agent-code/gpu-speech/server.py))
+In the UI, each reply gets a playback bar, and the voice is generated on demand when the answer arrives ([full file](gemma-voice-agent-code/gpu-speech/server.py)).
 
 ![The same flow as step 3, now with the reply path: the answer text goes from the agent through Kokoro on the same GPU and comes back as a voice reply with a playback bar](assets/gemma-voice-agent/tts-flow-dark.svg)
 
@@ -150,7 +150,7 @@ _agent = Agent(
 
 This tells the agent three things. Where the brain lives: the GPU box's URL, which vLLM exposes as an OpenAI-compatible endpoint. How to prove it's allowed in: a Google-signed identity token instead of an API key, because the box rejects anonymous callers. And to run Gemma with thinking mode on.
 
-Tool calling works because vLLM ships a parser for Gemma's tool-call format (`--tool-call-parser gemma4`). ([Full file.](gemma-voice-agent-code/app/model.py))
+Tool calling works because vLLM ships a parser for Gemma's tool-call format (`--tool-call-parser gemma4`) ([full file](gemma-voice-agent-code/app/model.py)).
 
 ### Step 6: add sign-in and make conversations persistent
 
@@ -170,7 +170,7 @@ def _user_id() -> str:
     return claims["sub"].replace(":", "_")
 ```
 
-The function checks the token's signature and extracts a stable user ID. That ID carries no email or other personal information, and it's the only identity data the app stores: conversations are keyed on it, so each person only ever sees their own. ([Full file.](gemma-voice-agent-code/app/server.py))
+The function checks the token's signature and extracts a stable user ID. That ID carries no email or other personal information, and it's the only identity data the app stores: conversations are keyed on it, so each person only ever sees their own ([full file](gemma-voice-agent-code/app/server.py)).
 
 For storage, ADK's session service is swappable in a line. I pointed mine at Agent Engine Sessions, used purely as a session store:
 
@@ -183,7 +183,7 @@ _sessions = VertexAiSessionService(
 _runner = Runner(app=_app, session_service=_sessions)
 ```
 
-That's the entire storage change: same agent, same runner, but every message and tool result now lands in a managed store. It survives restarts and is reachable from any instance, instead of living in process memory. ([Full file.](gemma-voice-agent-code/app/model.py))
+That's the entire storage change: same agent, same runner, but every message and tool result now lands in a managed store. It survives restarts and is reachable from any instance, instead of living in process memory ([full file](gemma-voice-agent-code/app/model.py)).
 
 On top of it I built the usual conversation UI: a drawer that lists conversations, plus switch, rename, and delete.
 
@@ -203,7 +203,7 @@ _app = App(
 )
 ```
 
-That flag does the heavy lifting. To make it work, the app has a retry endpoint and a Retry button on the failed turn. ([Full file.](gemma-voice-agent-code/app/model.py))
+That flag does the heavy lifting. To make it work, the app has a retry endpoint and a Retry button on the failed turn ([full file](gemma-voice-agent-code/app/model.py)).
 
 #### Observability
 
@@ -227,7 +227,7 @@ maybe_set_otel_providers(  # install as the app's OpenTelemetry provider
 )
 ```
 
-The helpers come from ADK's telemetry modules, as the imports show. `google.auth.default()` returns the identity the service runs as: every Cloud Run service has its own Google Cloud identity. The helpers build a Cloud Trace exporter authorized as that identity and install it as the app's OpenTelemetry provider. From then on, every span ADK emits is sent to Cloud Trace automatically. There's nothing per-turn to write. ([Full file.](gemma-voice-agent-code/app/telemetry.py))
+The helpers come from ADK's telemetry modules, as the imports show. `google.auth.default()` returns the identity the service runs as: every Cloud Run service has its own Google Cloud identity. The helpers build a Cloud Trace exporter authorized as that identity and install it as the app's OpenTelemetry provider. From then on, every span ADK emits is sent to Cloud Trace automatically. There's nothing per-turn to write ([full file](gemma-voice-agent-code/app/telemetry.py)).
 
 #### Evals
 
