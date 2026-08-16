@@ -257,4 +257,4 @@ The first real user found a real bug within hours: when the paper search failed 
 
 ## What's next
 
-Fine-tuning the brain on domain data is the natural next step. The repo is [ykdojo/gemma-voice-agent](https://github.com/ykdojo/gemma-voice-agent). All the code in this post is there.
+Fine-tuning Gemma on domain data is the natural next step. You can check out how to do that in [this article](https://medium.com/google-cloud/fine-tuning-gemma-4-with-cloud-run-jobs-serverless-gpus-nvidia-rtx-6000-pro-for-pet-breed-d408c7e24be2) by Shir Meir Lador. The repo is [ykdojo/gemma-voice-agent](https://github.com/ykdojo/gemma-voice-agent). All the code in this post is there.
