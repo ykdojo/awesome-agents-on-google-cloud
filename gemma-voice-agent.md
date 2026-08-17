@@ -26,7 +26,7 @@ One RTX 6000 Pro has 96 GB, so the whole stack shares a single GPU. You get char
 
 ![Chat UI: a multi-turn conversation, each reply with a voice playback bar](assets/gemma-voice-agent/ui-chat.png)
 
-[Demo video](https://github.com/user-attachments/assets/ccdd3cf1-fd42-4b0a-8827-dd51140f795f)
+[Demo video](https://ykdojo.github.io/awesome-agents-on-google-cloud/gemma-voice-agent-demo.html)
 
 ## The architecture
 
@@ -38,6 +38,8 @@ It's two Cloud Run services that talk to each other:
 - **The GPU box**: a FastAPI router owning the exposed port, two vLLM processes behind it (Whisper and Gemma on localhost ports), Kokoro inside the router. Gemma's weights stream from a public GCS bucket at boot. The small models are baked into the image.
 
 I decided to separate this into two services instead of shoving everything into one box so that it's faster to iterate over the frontend application.
+
+The rest of the architecture diagram will be covered throughout the rest of the article.
 
 ## How I built it, step by step
 
