@@ -29,9 +29,10 @@
     <h1>Hacker News <span class="accent">Digest</span> — video edition</h1>
     <p>The same demo episode as the <a href="../hn-podcast-demo/" style="color:#ff6600">main demo page</a>,
     now with a video edition produced by the post-production job: Gemma writes
-    the episode description and a visual direction per story, Gemini maps each
-    story's start time from the audio, Veo renders an 8-second ambient backdrop
-    per story, and code stitches them under the audio with fades.</p>
+    the episode description and a Veo prompt per story, Gemini maps each
+    story's start time from the audio, Veo renders a sequence of unique ambient
+    backdrops for every story (no repeated footage), and code stitches them
+    under the audio with fades, timed to the story boundaries.</p>
 
     <div class="label">Video edition (Veo backdrops, one per story)</div>
     <video controls preload="metadata" poster="../hn-podcast-demo/cover.png"
