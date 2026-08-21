@@ -4,7 +4,7 @@
 
 I like reading Hacker News, but there is always a lot going on. I wanted a way to catch up quickly: a short daily podcast summarizing the past day's top stories in a friendly two-host style, like NotebookLM, with fact-checking loops so that I know I can trust what I'm hearing.
 
-So I built one. It's an [open source system](hn-daily-podcast-code/) that runs a Cloud Run job every morning: it reads the last 26 hours of Hacker News, picks the stories worth talking about, writes a two-host script, fact-checks it against the actual articles and comment threads, renders the audio, and publishes an episode to a podcast feed. Here is [a real episode](https://ykdojo.github.io/awesome-agents-on-google-cloud/hn-podcast-demo/), generated end to end through the system.
+So I built one. It's an [open source system](https://github.com/ykdojo/hacker-news-digest) that runs a Cloud Run job every morning: it reads the last 26 hours of Hacker News, picks the stories worth talking about, writes a two-host script, fact-checks it against the actual articles and comment threads, renders the audio, and publishes an episode to a podcast feed. Here is [a real episode](https://ykdojo.github.io/awesome-agents-on-google-cloud/hn-podcast-demo/), generated end to end through the system.
 
 ## The stack
 
@@ -17,7 +17,7 @@ Versions at time of writing: `google-adk 2.6.2`, `google-genai 2.17.0`.
 
 ## The graph
 
-The pipeline is an [ADK 2 graph workflow](https://adk.dev/graphs/). The nice thing about it is that you can describe a multi-step workflow as a graph, and the structure, including the ordering, branching, and loops, stays deterministic code no matter how many model calls happen inside the nodes. To demonstrate how it works, let's build this system from the ground up, step by step. The complete code is [here](hn-daily-podcast-code/).
+The pipeline is an [ADK 2 graph workflow](https://adk.dev/graphs/). The nice thing about it is that you can describe a multi-step workflow as a graph, and the structure, including the ordering, branching, and loops, stays deterministic code no matter how many model calls happen inside the nodes. To demonstrate how it works, let's build this system from the ground up, step by step. The complete code is [here](https://github.com/ykdojo/hacker-news-digest).
 
 The simplest version feeds sources to a model and writes an episode in one shot:
 
@@ -150,4 +150,4 @@ Directory listing is separate: submit the feed once to Apple Podcasts Connect an
 
 ## The code
 
-The full source for the pipeline, everything from fetching stories to publishing the feed, is available [here](hn-daily-podcast-code/).
+The full source for the pipeline, everything from fetching stories to publishing the feed, is available [here](https://github.com/ykdojo/hacker-news-digest).
