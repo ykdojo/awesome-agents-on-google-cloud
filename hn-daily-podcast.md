@@ -151,3 +151,5 @@ Directory listing is separate: submit the feed once to Apple Podcasts Connect an
 ## The code
 
 The full source for the pipeline, everything from fetching stories to publishing the feed, is available [here](https://github.com/ykdojo/hacker-news-digest).
+
+I built this project and wrote this article as part of entering Google's All Things Agentic Hackathon. #AllThingsAgenticHackathon
